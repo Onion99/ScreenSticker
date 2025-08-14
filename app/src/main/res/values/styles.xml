@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/theme_color_primary</item>
+        <item name="colorPrimaryDark">@color/theme_color_primary</item>
+        <item name="colorAccent">@color/theme_color_primary</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorBackground">@android:color/white</item>
+<!--        <item name="android:windowBackground">@android:color/white</item>-->
+<!--        <item name="android:windowBackground">@drawable/bg_launcher_splash</item>-->
+        <item name="android:colorPrimaryDark">@color/theme_color_primary
+        </item> <!-- status bar color -->
+        <item name="android:colorPrimary">@color/theme_color_primary
+        </item> <!-- launched apps list -->
+        <item name="android:colorControlActivated">#ff5b95c2</item>
+        <!--    <item name="android:windowBackground">@color/splash</item>-->
+        <item name="fontFamily">@font/metropolis</item>
+    </style>
+
+
+    <style name="AppTheme.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation duration. -->
+        <item name="windowSplashScreenBackground">@color/theme_color_on_primary</item>
+
+        <!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an
+         animated drawable. One of these is required. -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_splash</item>
+        <!-- Required for animated icons -->
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <!-- Set the theme of the Activity that directly follows your splash screen. -->
+        <!-- Required -->
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
+
+    <style name="TransparentTheme" parent="@style/AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- container activity -->
+    <item name="fragment_container_view" type="id" />
+    <!-- other -->
+    <item name="qmui_click_timestamp" type="id"/>
+    <item name="qmui_click_debounce_action" type="id"/>
+    <item name="view_finish_action" type="id"/>
+</resources>

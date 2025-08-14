@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主题�? -->
+    <color name="theme_color_primary">#0288D1</color> <!--Color primary-->
+    <color name="theme_color_primary_bubble">#C10288D1</color> <!--Color primary-->
+    <!-- 辅助�? -->
+    <color name="theme_color_secondary">#FF4D79</color>
+    <!-- 背景�? �?-->
+    <color name="theme_color_on_primary">#ffffff</color> <!--Color on primary -->
+    <!-- 背景�? �?-->
+    <color name="theme_color_background">#F2F2F2</color>
+    <color name="theme_color_assist_pink">#F772F2</color>
+    <color name="theme_color_assist_blue">#07B1EF</color>
+    <color name="theme_color_assist_green">#01DF85 </color>
+    <!-- 文本�?级色 -->
+    <color name="text_color_primary">#1A1A1A</color>
+    <!-- 文本二级�? -->
+    <color name="text_color_secondary">#B1B3B3</color>
+    <!-- 文本三级�? -->
+    <color name="text_color_thirdary">#ffffff</color>
+
+    <!--黑色透明�?-->
+    <color name="black_translucent_05">#f2000000</color>
+    <color name="black_translucent_10">#e6000000</color>
+    <color name="black_translucent_12">#e0000000</color>
+    <color name="black_translucent_15">#d9000000</color>
+    <color name="black_translucent_20">#cc000000</color>
+    <color name="black_translucent_25">#bf000000</color>
+    <color name="black_translucent_30">#b3000000</color>
+    <color name="black_translucent_35">#a6000000</color>
+    <color name="black_translucent_40">#99000000</color>
+    <color name="black_translucent_45">#8c000000</color>
+    <color name="black_translucent_50">#80000000</color>
+    <color name="black_translucent_55">#73000000</color>
+    <color name="black_translucent_60">#66000000</color>
+    <color name="black_translucent_65">#59000000</color>
+    <color name="black_translucent_68">#52000000</color>
+    <color name="black_translucent_70">#4d000000</color>
+    <color name="black_translucent_75">#40000000</color>
+    <color name="black_translucent_80">#33000000</color>
+    <color name="black_translucent_85">#26000000</color>
+    <color name="black_translucent_90">#19000000</color>
+    <color name="black_translucent_95">#0d000000</color>
+    <color name="black_translucent_97">#08000000</color>
+    <color name="black_translucent_100">#00000000</color>
+
+    <!--白色透明�?-->
+    <color name="white_translucent_05">#f2ffffff</color>
+    <color name="white_translucent_10">#e6ffffff</color>
+    <color name="white_translucent_15">#d9ffffff</color>
+    <color name="white_translucent_20">#ccffffff</color>
+    <color name="white_translucent_25">#bfffffff</color>
+    <color name="white_translucent_30">#b3ffffff</color>
+    <color name="white_translucent_35">#a6ffffff</color>
+    <color name="white_translucent_40">#99ffffff</color>
+    <color name="white_translucent_45">#8cffffff</color>
+    <color name="white_translucent_50">#80ffffff</color>
+    <color name="white_translucent_55">#73ffffff</color>
+    <color name="white_translucent_60">#66ffffff</color>
+    <color name="white_translucent_65">#59ffffff</color>
+    <color name="white_translucent_70">#4dffffff</color>
+    <color name="white_translucent_75">#40ffffff</color>
+    <color name="white_translucent_80">#33ffffff</color>
+    <color name="white_translucent_85">#26ffffff</color>
+    <color name="white_translucent_90">#19ffffff</color>
+    <color name="white_translucent_95">#0dffffff</color>
+    <color name="white_translucent_82">#D1FFFFFF</color>
+</resources>

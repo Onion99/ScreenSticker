@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+    <string name="key_1">Masuk dengan Google</string>
+    <string name="key_2">Masuk dengan Facebook</string>
+</resources>

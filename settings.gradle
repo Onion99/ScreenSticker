@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://jitpack.io" }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+rootProject.name = "Snipaste"
+include ':app'
+include(":core-ui")
+include(":core-opengl")
+include(":core-ui-splitties")
+include(":core-common")
+include(":core-resource")
+include(":core-ui-recyclerview")
+include(":core-ui-viewpager2")

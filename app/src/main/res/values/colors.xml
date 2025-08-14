@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主题�? -->
+    <color name="theme_color_primary">#0288D1</color> <!--Color primary-->
+    <!-- 辅助�? -->
+    <color name="theme_color_secondary">#FF4D79</color>
+    <!-- 背景�? �?-->
+    <color name="theme_color_on_primary">#ffffff</color> <!--Color on primary -->
+    <!-- 背景�? �?-->
+    <color name="theme_color_background">#F2F2F2</color>
+    <color name="theme_color_assist_pink">#F772F2</color>
+    <color name="theme_color_assist_blue">#07B1EF</color>
+    <color name="theme_color_assist_green">#01DF85</color>
+    <!-- 文本�?级色 -->
+    <color name="text_color_primary">#1A1A1A</color>
+    <!-- 文本二级�? -->
+    <color name="text_color_secondary">#B1B3B3</color>
+    <!-- 文本三级�? -->
+    <color name="text_color_thirdary">#ffffff</color>
+</resources>

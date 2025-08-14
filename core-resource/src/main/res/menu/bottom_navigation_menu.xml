@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page_home"
+        android:enabled="true"
+        android:title="key_16"/>
+
+    <item
+        android:id="@+id/page_room"
+        android:enabled="true"
+        android:title="key_234"/>
+
+    <item
+        android:id="@+id/page_chat"
+        android:enabled="true"
+        android:title="key_17"/>
+
+    <item
+        android:id="@+id/page_me"
+        android:enabled="true"
+        android:title="key_18"/>
+
+</menu>

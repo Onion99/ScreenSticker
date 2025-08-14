@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+    <string name="key_1">Google登陸</string>
+    <string name="key_2">facebook登陸</string>
+</resources>
