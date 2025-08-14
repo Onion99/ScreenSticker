@@ -57,6 +57,7 @@
             <meta-data android:name="com.omega.sun.startup.UiConfigStartup" android:value="android.startup" />
         </provider>
 
+        <service android:name=".service.FloatingWindowService" />
         <!-- Multi Language -->
 <!--        <service-->
 <!--            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"-->

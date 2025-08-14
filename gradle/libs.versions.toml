@@ -74,6 +74,7 @@ androidx-appcompat = "1.7.1"
 androidx-compose-bom = "2025.08.00"
 android-material3 = "1.14.0-alpha03"
 accompanist = "0.37.3"
+lifecycleService = "2.9.2"
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -228,3 +229,4 @@ android-test-runner = { module = "com.android.support.test:runner", version.ref 
 profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "baselineProfiles" }
 macrobenchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "macroBenchmark" }
 uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiAutomator" }
+androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycleService" }

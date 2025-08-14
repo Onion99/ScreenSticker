@@ -1,5 +1,10 @@
 package com.omega.sun.ui.controller.page
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -23,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.omega.resource.R
+import com.omega.sun.service.FloatingWindowService
 import com.omega.sun.ui.controller.base.BaseLifecycleController
 
 // The controller remains the same.
@@ -42,15 +49,34 @@ class HomeController : BaseLifecycleController() {
 @Preview
 @Composable
 fun HomeScreen() {
+    val context = LocalContext.current
+    var textState by remember { mutableStateOf("") }
+
+    // Launcher to request overlay permission
+    val overlayPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        // After returning from settings, check permission again
+        if (Settings.canDrawOverlays(context)) {
+            // Permission granted, start the service with the current text
+            if (textState.isNotBlank()) {
+                val intent = Intent(context, FloatingWindowService::class.java).apply {
+                    putExtra("EXTRA_TEXT", textState)
+                }
+                context.startService(intent)
+            }
+        } else {
+            // TODO: Show a snackbar or toast that permission is required
+        }
+    }
+
     Scaffold(
         topBar = {
-            // A CenterAlignedTopAppBar feels more modern and balanced for a main screen.
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(id = R.string.home_title), style = MaterialTheme.typography.titleLarge) },
-                // Let's add our beautiful app icon here!
                 /*navigationIcon = {
                     Icon(
-                        painter = painterResource(id = com.omega.sun.R.drawable.ic_launcher), // Assuming you have the icon
+                        painter = painterResource(id = com.omega.sun.R.drawable.ic_launcher), // Using the app icon
                         contentDescription = "App Icon",
                         modifier = Modifier.padding(start = 8.dp).size(32.dp),
                         tint = Color.Unspecified // Important: Use the original colors
@@ -61,16 +87,14 @@ fun HomeScreen() {
                 )
             )
         },
-        // Use the theme's background color for better dark mode support and consistency.
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
-        // LazyColumn is more efficient than a scrollable Column for lists.
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp) // Consistent spacing between cards
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // --- Text Note Section ---
             item {
@@ -78,9 +102,6 @@ fun HomeScreen() {
                     title = stringResource(id = R.string.text_tip),
                     icon = Icons.Rounded.Edit
                 ) {
-                    var textState by remember { mutableStateOf("") }
-
-                    // OutlinedTextField is a more modern M3 component.
                     OutlinedTextField(
                         value = textState,
                         onValueChange = { textState = it },
@@ -89,32 +110,43 @@ fun HomeScreen() {
                             .fillMaxWidth()
                             .height(150.dp),
                         placeholder = { Text("Jot down a quick thought...") },
-                        leadingIcon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
+                        leadingIcon = { Icon(Icons.Rounded.Notes, contentDescription = null) },
                         shape = RoundedCornerShape(12.dp)
                     )
 
                     Spacer(Modifier.height(12.dp))
 
-                    // Using different button styles for visual hierarchy.
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        // The primary action is a filled button.
                         Button(
-                            onClick = { /* TODO: pasteText action */ },
+                            onClick = {
+                                if (textState.isBlank()) return@Button
+                                if (Settings.canDrawOverlays(context)) {
+                                    val intent = Intent(context, FloatingWindowService::class.java).apply {
+                                        putExtra("EXTRA_TEXT", textState)
+                                    }
+                                    context.startService(intent)
+                                } else {
+                                    val intent = Intent(
+                                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                        Uri.parse("package:${context.packageName}")
+                                    )
+                                    overlayPermissionLauncher.launch(intent)
+                                }
+                            },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Icon(Icons.Rounded.Home, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+                            Icon(Icons.Rounded.Launch, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text(stringResource(id = R.string.paste_text_to_screen))
                         }
-                        // The secondary action is an outlined button.
                         OutlinedButton(
                             onClick = { /* TODO: pasteClipboard action */ },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Icon(Icons.Rounded.Home, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+                            Icon(Icons.Rounded.ContentPaste, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text(stringResource(id = R.string.paste_clipboard_to_screen))
                         }
@@ -126,9 +158,8 @@ fun HomeScreen() {
             item {
                 ActionCard(
                     title = stringResource(id = R.string.image_tip),
-                    icon = Icons.Rounded.Home
+                    icon = Icons.Rounded.Image
                 ) {
-                    // FilledTonalButtons are great for secondary, contained actions.
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -137,7 +168,7 @@ fun HomeScreen() {
                             onClick = { /* TODO: album action */ },
                             modifier = Modifier.weight(1f).height(56.dp)
                         ) {
-                            Icon(Icons.Rounded.Home, contentDescription = null)
+                            Icon(Icons.Rounded.PhotoLibrary, contentDescription = null)
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text(stringResource(id = R.string.album))
                         }
@@ -145,7 +176,7 @@ fun HomeScreen() {
                             onClick = { /* TODO: camera action */ },
                             modifier = Modifier.weight(1f).height(56.dp)
                         ) {
-                            Icon(Icons.Rounded.Home, contentDescription = null)
+                            Icon(Icons.Rounded.PhotoCamera, contentDescription = null)
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text(stringResource(id = R.string.camera))
                         }
@@ -157,9 +188,8 @@ fun HomeScreen() {
             item {
                 ActionCard(
                     title = stringResource(id = R.string.help),
-                    icon = Icons.Rounded.KeyboardArrowRight
+                    icon = Icons.Rounded.HelpOutline
                 ) {
-                    // Use theme colors, not hardcoded ones. onSurfaceVariant is perfect for secondary text.
                     Text(
                         text = stringResource(id = R.string.help_tip),
                         style = MaterialTheme.typography.bodyMedium,
@@ -171,10 +201,6 @@ fun HomeScreen() {
     }
 }
 
-/**
- * A reusable, styled card for grouping actions on the screen.
- * This makes the main layout much cleaner and ensures a consistent design.
- */
 @Composable
 fun ActionCard(
     title: String,
@@ -205,19 +231,17 @@ fun ActionCard(
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
-            // This is where the unique content (buttons, text fields) for each card will go.
             content()
         }
     }
 }
 
-// Dummy theme for previewing
 @Composable
 fun YourAppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = lightColorScheme(
-            primary = Color(0xFF4A5E9D), // Colors inspired by your first icon
-            surface = Color(0xFFFDF8F0), // The "Canvas Cream" we designed
+            primary = Color(0xFF4A5E9D),
+            surface = Color(0xFFFDF8F0),
             surfaceVariant = Color(0xFFE8EAF6),
             onSurface = Color(0xFF1B1B1F),
             onSurfaceVariant = Color(0xFF44464F)
@@ -225,8 +249,3 @@ fun YourAppTheme(content: @Composable () -> Unit) {
         content = content
     )
 }
-
-
-
-
-

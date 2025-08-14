@@ -149,6 +149,7 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.service)
     implementation(libs.startup)
     implementation(libs.unpeek)
     //noinspection UseTomlInstead
