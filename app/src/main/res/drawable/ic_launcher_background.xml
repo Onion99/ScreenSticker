@@ -1,0 +1,22 @@
+<!-- res/drawable/ic_launcher_background.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M0,0 H108 V108 H0 Z">
+        <aapt:attr name="android:fillColor">
+            <!-- A subtle gradient gives the background depth, like a softly lit surface -->
+            <gradient
+                android:centerX="54"
+                android:centerY="54"
+                android:gradientRadius="54"
+                android:type="radial">
+                <item android:color="#FFFFFF" android:offset="0.3"/>
+                <item android:color="#FDF8F0" android:offset="1.0"/> <!-- Canvas Cream -->
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

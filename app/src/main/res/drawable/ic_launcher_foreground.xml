@@ -1,0 +1,44 @@
+<!-- res/drawable/ic_launcher_foreground.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- The entire group is rotated for a more dynamic, less static feel -->
+    <group android:pivotX="54" android:pivotY="54" android:rotation="-15">
+
+        <!-- Element 1: Shadow for depth -->
+        <!-- A soft, blurred shadow to lift the notes off the background -->
+        <path
+            android:pathData="M25,50 V83 A8,8 0 0,0 33,91 H78 A8,8 0 0,0 86,83 V50 Z"
+            android:fillColor="#1A000000"/>
+
+        <!-- Element 2: The Note Stack -->
+        <!-- Bottom Note (Cool accent color for contrast) -->
+        <path
+            android:pathData="M28,48 H80 A5,5 0 0,1 85,53 V80 A5,5 0 0,1 80,85 H28 A5,5 0 0,1 23,80 V53 A5,5 0 0,1 28,48 Z"
+            android:fillColor="#4FC3F7"/> <!-- Sky Blue -->
+
+        <!-- Middle Note (Primary brand color) -->
+        <path
+            android:pathData="M28,42 H80 A5,5 0 0,1 85,47 V74 A5,5 0 0,1 80,79 H28 A5,5 0 0,1 23,74 V47 A5,5 0 0,1 28,42 Z"
+            android:fillColor="#FFB74D"/> <!-- Sunset Orange -->
+
+        <!-- Top Note (The quintessential sticky-note yellow) -->
+        <path
+            android:pathData="M28,36 H68 L85,53 V68 A5,5 0 0,1 80,73 H28 A5,5 0 0,1 23,68 V41 A5,5 0 0,1 28,36 Z"
+            android:fillColor="#FFF176"/> <!-- Lemon Yellow -->
+
+        <!-- Element 3: The "Peeled Corner" Detail -->
+        <!-- This is the signature element, adding tactility and character -->
+        <path
+            android:pathData="M68,36 L85,53 H73 A5,5 0 0,1 68,48 V36 Z"
+            android:fillColor="#FFD54F"/> <!-- A slightly darker shade for the underside of the peel -->
+        <!-- Shadow cast by the peeled corner -->
+        <path
+            android:pathData="M68,53 L85,53 L73,41Z"
+            android:fillColor="#26000000"/>
+
+    </group>
+</vector>

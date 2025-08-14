@@ -2,4 +2,15 @@
 <resources tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
     <string name="key_1">Sign in with Google</string>
     <string name="key_2">Sign in with Facebook</string>
+
+    <string name="home_title">Snipaste</string>
+    <string name="text_tip">贴文本</string>
+    <string name="text_edit_tip">输入你想粘贴的内容</string>
+    <string name="paste_text_to_screen">粘贴到屏幕</string>
+    <string name="paste_clipboard_to_screen">从剪切板导入</string>
+    <string name="image_tip">贴图片</string>
+    <string name="album">图片</string>
+    <string name="camera">相机</string>
+    <string name="help">help</string>
+    <string name="help_tip">helpText</string>
 </resources>

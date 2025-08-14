@@ -9,7 +9,7 @@
         android:gravity="center"
         android:width="90dp"
         android:height="90dp"
-        android:drawable="@drawable/ic_launcher_splashcreen">
+        android:drawable="@drawable/ic_launcher">
     </item>
 
 </layer-list>

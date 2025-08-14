@@ -1,0 +1,14 @@
+<!-- res/drawable/ic_launcher_monochrome.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:pivotX="54" android:pivotY="54" android:rotation="-15">
+        <!-- We use only the silhouette of the most iconic part: the top note with the peel. -->
+        <!-- The system will automatically apply the correct single color. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M28,36 H68 L85,53 V68 A5,5 0 0,1 80,73 H28 A5,5 0 0,1 23,68 V41 A5,5 0 0,1 28,36 Z" />
+    </group>
+</vector>
