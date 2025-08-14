@@ -1,9 +1,9 @@
 package com.omega.ui.widget.recyclerView
 
-import com.omega.recyclerview.RecyclerView
 import android.graphics.Rect
 import android.util.Log
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 
 class FlowLayoutManager : RecyclerView.LayoutManager() {

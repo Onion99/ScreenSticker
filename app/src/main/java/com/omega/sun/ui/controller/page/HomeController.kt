@@ -100,7 +100,7 @@ class HomePageView @JvmOverloads constructor(
         val contentView:View
         add(textView {
             //textAppearance = MaterialR.style.TextAppearance_AppCompat_Headline
-            textAppearance = MaterialR.style.TextAppearance_AppCompat_Title
+            textAppearance = MaterialR.style.TextAppearance_Material3_TitleMedium
             text = viewName
             centerText()
         },lParams(wrapContent,wrapContent,gravityCenterHorizontal))
@@ -117,7 +117,7 @@ class HomePageView @JvmOverloads constructor(
         val contentView:View
         add(textView {
             //textAppearance = MaterialR.style.TextAppearance_AppCompat_Headline
-            textAppearance = MaterialR.style.TextAppearance_AppCompat_Title
+            textAppearance = MaterialR.style.TextAppearance_Material3_TitleMedium
             text = viewName
             centerText()
         },lParams(wrapContent,wrapContent,gravityCenterHorizontal))

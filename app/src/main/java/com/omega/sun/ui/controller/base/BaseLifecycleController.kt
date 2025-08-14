@@ -188,7 +188,8 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
         }
     }
 
-    override fun getLifecycle(): Lifecycle = lifecycleOwner.lifecycle
+    override val lifecycle: Lifecycle
+        get() = lifecycleOwner.lifecycle
 
 
     // ------------------------------------------------------------------------
@@ -208,7 +209,9 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
     fun <T : ViewModel> getControllerScopeViewMode(clazz: Class<T>): T = viewModelProvider[clazz].apply {
         controllerViewModel.add(this)
     }
-    override fun getViewModelStore(): ViewModelStore = controllerViewModelStore
+
+    override val viewModelStore: ViewModelStore
+        get() = controllerViewModelStore
 
     override fun onDestroyView(view: View) {
         releaseResource()

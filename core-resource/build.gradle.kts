@@ -27,12 +27,11 @@ android {
     namespace = "com.omega.resource"
     defaultConfig {
         minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
     }
 }
 apply(from = "$rootDir/exclude_other_version.gradle")
 dependencies{
     // ---- material ------
-    api(libs.material)
+    api(libs.android.material3)
 }
 

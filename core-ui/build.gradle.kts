@@ -27,26 +27,14 @@ android {
   namespace = "com.omega.ui"
   defaultConfig {
     minSdk = Configuration.minSdk
-    targetSdk = Configuration.targetSdk
   }
   sourceSets["main"].java.srcDir("src/main/kotlin")
 }
 
 dependencies {
-  api(project(":core-ui-recyclerview"))
-  api(project(":core-ui-viewpager2"))
   api(project(":core-resource"))
   api(libs.androidx.swipe)
   api(libs.androidx.constraintlayout)
-  // ---- splitties ------
-//  api(libs.splitties.view){
-//    exclude("com.louiscad.splitties","splitties-views-android")
-//    exclude("com.louiscad.splitties","splitties-views")
-//  }
-//  api(libs.splitties.dsl){
-//    exclude("com.louiscad.splitties","splitties-views")
-//    exclude("com.louiscad.splitties","splitties-views-android")
-//  }
   api(project(":core-ui-splitties"))
   // ---- conductor ------
   api(libs.conductor.core)

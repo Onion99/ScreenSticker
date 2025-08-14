@@ -11,11 +11,9 @@ android {
 
     defaultConfig {
         minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
     }
 }
 dependencies {
-    implementation(libs.utilcodex)
     implementation(libs.coroutines)
     api(libs.timber)
 }

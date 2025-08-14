@@ -16,7 +16,6 @@
 import com.omega.build.Configuration
 
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   id(libs.plugins.android.library.get().pluginId)
   id(libs.plugins.kotlin.android.get().pluginId)
@@ -27,7 +26,6 @@ android {
   namespace = "com.omega.opengl"
   defaultConfig {
     minSdk = Configuration.minSdk
-    targetSdk = Configuration.targetSdk
     externalNativeBuild {
       cmake {
         cppFlags("")

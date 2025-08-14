@@ -2,7 +2,7 @@ package com.omega.ui.widget.recyclerView
 
 import android.graphics.Rect
 import android.view.View
-import com.omega.recyclerview.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by lengyacheng on 2023/2/23

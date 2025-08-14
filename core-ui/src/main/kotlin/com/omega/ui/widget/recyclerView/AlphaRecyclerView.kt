@@ -2,7 +2,7 @@ package com.omega.ui.widget.recyclerView
 
 import android.util.AttributeSet
 import android.util.Log
-import com.omega.recyclerview.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 
 // ------------------------------------------------------------------------

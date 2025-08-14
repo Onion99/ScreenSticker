@@ -2,9 +2,9 @@ package com.omega.ui.widget.recyclerView
 
 import android.content.Context
 import android.util.AttributeSet
-import com.omega.recyclerview.LinearLayoutManager
-import com.omega.recyclerview.LinearSmoothScroller
-import com.omega.recyclerview.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 
 class MarqueeLinearLayoutManager : LinearLayoutManager {
 

@@ -15,8 +15,6 @@
  */
 import com.omega.build.Configuration
 
-
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   id(libs.plugins.android.library.get().pluginId)
   id(libs.plugins.kotlin.android.get().pluginId)
@@ -27,17 +25,11 @@ android {
   namespace = "splitties.views"
   defaultConfig {
     minSdk = Configuration.minSdk
-    targetSdk = Configuration.targetSdk
   }
   sourceSets["main"].java.srcDir("src/main/kotlin")
 }
 apply(from = "$rootDir/android_common.gradle")
 dependencies {
-  // ---- splitties ------
-//  api(libs.splitties.view){
-//    exclude("com.louiscad.splitties","splitties-views")
-//    exclude("com.louiscad.splitties","splitties-views-android")
-//  }
   api(libs.splitties.dsl){
     exclude("com.louiscad.splitties","splitties-views")
     exclude("com.louiscad.splitties","splitties-views-android")

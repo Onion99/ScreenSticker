@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
-import com.omega.viewpager2.widget.ViewPager2
 import com.bluelinelabs.conductor.ChangeHandlerFrameLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
@@ -20,7 +19,6 @@ import com.omega.ui.widget.layout.NestedScrollableLinearLayout
 import com.omega.ui.widget.layout.RoundedCornerFrameLayout
 import com.omega.ui.widget.recyclerView.AlphaRecyclerView
 import com.omega.ui.widget.recyclerView.SafeRecyclerView
-import com.omega.viewpager2.widget.ViewPager2 as NovaViewPage2
 import splitties.experimental.InternalSplittiesApi
 import splitties.views.dsl.core.NO_THEME
 import splitties.views.dsl.core.view
@@ -151,44 +149,7 @@ inline fun View.bottomNavigationView(
     return context.bottomNavigationView(id, theme, initView)
 }
 
-@OptIn(ExperimentalContracts::class, InternalSplittiesApi::class)
-inline fun Context.viewPager2(
-    @IdRes id: Int = View.NO_ID,
-    @StyleRes theme: Int = NO_THEME,
-    initView: ViewPager2.() -> Unit = {}
-): ViewPager2 {
-    contract { callsInPlace(initView, InvocationKind.EXACTLY_ONCE) }
-    return styledView(::ViewPager2,id, theme, initView)
-}
 
-@OptIn(ExperimentalContracts::class, InternalSplittiesApi::class)
-inline fun View.viewPager2(
-    @IdRes id: Int = View.NO_ID,
-    @StyleRes theme: Int = NO_THEME,
-    initView: ViewPager2.() -> Unit = {}
-): ViewPager2 {
-    contract { callsInPlace(initView, InvocationKind.EXACTLY_ONCE) }
-    return context.viewPager2(id, theme, initView)
-}
-@OptIn(ExperimentalContracts::class, InternalSplittiesApi::class)
-inline fun Context.novaViewPager2(
-    @IdRes id: Int = View.NO_ID,
-    @StyleRes theme: Int = NO_THEME,
-    initView: NovaViewPage2.() -> Unit = {}
-): NovaViewPage2 {
-    contract { callsInPlace(initView, InvocationKind.EXACTLY_ONCE) }
-    return styledView(::NovaViewPage2,id, theme, initView)
-}
-
-@OptIn(ExperimentalContracts::class, InternalSplittiesApi::class)
-inline fun View.novaViewPager2(
-    @IdRes id: Int = View.NO_ID,
-    @StyleRes theme: Int = NO_THEME,
-    initView: NovaViewPage2.() -> Unit = {}
-): NovaViewPage2 {
-    contract { callsInPlace(initView, InvocationKind.EXACTLY_ONCE) }
-    return context.novaViewPager2(id, theme, initView)
-}
 
 @OptIn(ExperimentalContracts::class, InternalSplittiesApi::class)
 inline fun Context.materialCardView(

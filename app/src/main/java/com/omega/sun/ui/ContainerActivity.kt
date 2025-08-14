@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraXConfig
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
@@ -43,7 +42,8 @@ class ContainerActivity : AppCompatActivity(),CoroutineScope by MainScope(){
 
 
     private var lastClickExitTime:Long = 0L
-    @Deprecated("Deprecated in Java")
+    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
+    @SuppressLint("GestureBackNavigation")
     override fun onBackPressed() {
         if (!router.handleBack()) {
             if(lastClickExitTime + 1000 > SystemClock.uptimeMillis()){
