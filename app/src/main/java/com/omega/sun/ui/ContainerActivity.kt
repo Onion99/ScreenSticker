@@ -10,7 +10,6 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.omega.resource.R
 import com.omega.sun.ui.controller.page.HomeController
-import com.omega.sun.ui.controller.page.LoginController
 import com.omega.ui.splitties.changeHandlerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

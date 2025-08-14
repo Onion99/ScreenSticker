@@ -9,6 +9,7 @@ plugins {
     id(libs.plugins.kotlin.kapt.get().pluginId)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
     id(libs.plugins.hilt.plugin.get().pluginId)
+    alias(libs.plugins.compose.compiler)
 }
 apply(from = "$rootDir/android_common.gradle")
 android {
@@ -123,7 +124,8 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
+        //viewBinding = true
         // Determines whether to generate a BuildConfig class.
         // buildConfig = true
         // Determines whether to support Data Binding.

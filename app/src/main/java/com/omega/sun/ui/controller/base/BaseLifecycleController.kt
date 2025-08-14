@@ -1,7 +1,6 @@
 package com.omega.sun.ui.controller.base
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.os.Looper
 import android.os.MessageQueue
@@ -9,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.postDelayed
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -87,7 +89,7 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
         addLifecycleListener(object : LifecycleListener() {
             override fun preCreateView(controller: Controller) {
                 super.preCreateView(controller)
-                onPreCreateView()
+                //onPreCreateView()
             }
 
             override fun postCreateView(controller: Controller, view: View) {
@@ -119,12 +121,6 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
             }
         })
     }
-
-    // ------------------------------------------------------------------------
-    // 预加载数�?-在创建View之前
-    // ------------------------------------------------------------------------
-    open fun onPreCreateView() = Unit
-
     // ------------------------------------------------------------------------
     // 创建View
     // ------------------------------------------------------------------------
@@ -133,7 +129,12 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
         container: ViewGroup,
         savedViewState: Bundle?
     ): View {
-        val root = onCreateView(container.context)
+        val root = ComposeView(container.context).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                ComposeUI()
+            }
+        }
         if (isInterceptTouch) {
             root.isClickable = true
         }
@@ -143,7 +144,8 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
         return root
     }
 
-    abstract fun onCreateView(context: Context): View
+    @Composable
+    abstract fun ComposeUI()
     // ------------------------------------------------------------------------
     // View创建之后
     // ------------------------------------------------------------------------

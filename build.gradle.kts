@@ -14,7 +14,7 @@
 // * limitations under the License.
 // */
 plugins {
-    //alias(libs.plugins.spotless)
+  alias(libs.plugins.compose.compiler)
 }
 
 buildscript {

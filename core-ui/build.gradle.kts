@@ -20,6 +20,7 @@ import com.omega.build.Configuration
 plugins {
   id(libs.plugins.android.library.get().pluginId)
   id(libs.plugins.kotlin.android.get().pluginId)
+  alias(libs.plugins.compose.compiler)
 }
 apply(from = "$rootDir/android_common.gradle")
 android {
@@ -51,14 +52,14 @@ dependencies {
   compileOnly(libs.mmkv)
   // ---- compose ------
   val composeBom = platform(libs.androidx.compose.bom)
-  implementation(composeBom)
-  implementation(libs.androidx.compose.runtime)
-  implementation(libs.androidx.compose.foundation)
-  implementation(libs.androidx.compose.foundation.layout)
-  implementation(libs.androidx.compose.ui)
-  implementation(libs.androidx.compose.ui.util)
-  implementation(libs.androidx.compose.material3)
-  implementation(libs.androidx.compose.animation)
-  implementation(libs.androidx.compose.ui.tooling.preview)
+  api(composeBom)
+  api(libs.androidx.compose.runtime)
+  api(libs.androidx.compose.foundation)
+  api(libs.androidx.compose.foundation.layout)
+  api(libs.androidx.compose.ui)
+  api(libs.androidx.compose.ui.util)
+  api(libs.androidx.compose.material3)
+  api(libs.androidx.compose.animation)
+  api(libs.androidx.compose.ui.tooling.preview)
 }
 apply(from = "$rootDir/exclude_other_version.gradle")
