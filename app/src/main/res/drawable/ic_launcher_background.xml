@@ -1,22 +1,37 @@
-<!-- res/drawable/ic_launcher_background.xml -->
+<!-- res/drawable/ic_launcher_background.xml (Option A: Architect's Desk) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+
+    <!-- Layer 1: The base canvas color with a soft radial glow -->
     <path
         android:pathData="M0,0 H108 V108 H0 Z">
         <aapt:attr name="android:fillColor">
-            <!-- A subtle gradient gives the background depth, like a softly lit surface -->
             <gradient
                 android:centerX="54"
                 android:centerY="54"
-                android:gradientRadius="54"
+                android:gradientRadius="70"
                 android:type="radial">
-                <item android:color="#FFFFFF" android:offset="0.3"/>
+                <item android:color="#FFFFFF" android:offset="0"/>
                 <item android:color="#FDF8F0" android:offset="1.0"/> <!-- Canvas Cream -->
             </gradient>
         </aapt:attr>
     </path>
+
+    <!-- Layer 2: The subtle grid pattern -->
+    <!-- The lines are thin and have a low-contrast color to provide texture -->
+    <!-- without overpowering the foreground icon. -->
+    <group>
+        <path
+            android:pathData="M27,0 V108 M54,0 V108 M81,0 V108"
+            android:strokeWidth="0.8"
+            android:strokeColor="#106D6D6D"/> <!-- Very subtle grid lines -->
+        <path
+            android:pathData="M0,27 H108 M0,54 H108 M0,81 H108"
+            android:strokeWidth="0.8"
+            android:strokeColor="#106D6D6D"/> <!-- Very subtle grid lines -->
+    </group>
 </vector>
