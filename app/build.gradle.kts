@@ -142,8 +142,7 @@ android {
 
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(project(":core-opengl"))
+    implementation(projects.coreUi)
     // androidx
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.activity.ktx)

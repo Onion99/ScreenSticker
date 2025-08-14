@@ -32,10 +32,12 @@ android {
 }
 
 dependencies {
-  api(project(":core-resource"))
+  // ---- module ------
+  api(projects.coreResource)
+  api(projects.coreUiSplitties)
+  // ---- view ------
   api(libs.androidx.swipe)
   api(libs.androidx.constraintlayout)
-  api(project(":core-ui-splitties"))
   // ---- conductor ------
   api(libs.conductor.core)
   api(libs.conductor.autodispose)
@@ -47,5 +49,16 @@ dependencies {
   api(libs.shapeofview)
   compileOnly(libs.utilcodex)
   compileOnly(libs.mmkv)
+  // ---- compose ------
+  val composeBom = platform(libs.androidx.compose.bom)
+  implementation(composeBom)
+  implementation(libs.androidx.compose.runtime)
+  implementation(libs.androidx.compose.foundation)
+  implementation(libs.androidx.compose.foundation.layout)
+  implementation(libs.androidx.compose.ui)
+  implementation(libs.androidx.compose.ui.util)
+  implementation(libs.androidx.compose.material3)
+  implementation(libs.androidx.compose.animation)
+  implementation(libs.androidx.compose.ui.tooling.preview)
 }
 apply(from = "$rootDir/exclude_other_version.gradle")
