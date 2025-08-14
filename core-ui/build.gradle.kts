@@ -61,5 +61,7 @@ dependencies {
   api(libs.androidx.compose.material3)
   api(libs.androidx.compose.animation)
   api(libs.androidx.compose.ui.tooling.preview)
+  api(libs.androidx.compose.ui.tooling.preview)
+  debugApi(libs.androidx.compose.ui.tooling)
 }
 apply(from = "$rootDir/exclude_other_version.gradle")
