@@ -86,7 +86,7 @@ fun HomeScreen() {
         } else {
             scope.launch {
                 snackbarHostState.showSnackbar(
-                    message = context.getString(R.string.camera_no),
+                    message = context.getString(R.string.overlay_permission_required),
                     actionLabel = context.getString(R.string.grant)
                 )
             }
@@ -287,7 +287,7 @@ fun HomeScreen() {
                             onClick = {
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
-                                        message = context.getString(R.string.overlay_permission_required),
+                                        message = context.getString(R.string.camera_no),
                                         actionLabel = context.getString(R.string.grant),
                                         duration = SnackbarDuration.Short
                                     )
