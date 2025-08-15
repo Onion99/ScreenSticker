@@ -23,7 +23,7 @@ jobs:
       - name: Decode Keystore
         # 从 secrets 中读取 Base64 字符串并解码回 .jks 文件
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/app/sign/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/release-keystore.jks
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
