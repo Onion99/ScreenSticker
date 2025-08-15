@@ -4,6 +4,7 @@ import android.view.View
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
+import com.omega.sun.BuildConfig
 import leakcanary.AppWatcher
 
 private class RefWatchingControllerLifecycleListener : Controller.LifecycleListener() {
@@ -37,5 +38,7 @@ private class RefWatchingControllerLifecycleListener : Controller.LifecycleListe
 }
 
 fun Controller.watchForLeaks() {
-    addLifecycleListener(RefWatchingControllerLifecycleListener())
+    if(BuildConfig.DEBUG){
+        addLifecycleListener(RefWatchingControllerLifecycleListener())
+    }
 }

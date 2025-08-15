@@ -163,8 +163,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.color.chooser)
     //noinspection UseTomlInstead
-    "normalImplementation"("com.squareup.leakcanary:leakcanary-android:2.14")
-    //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
+    //"normalImplementation"("com.squareup.leakcanary:leakcanary-android:2.14")
+    implementation(libs.leakcanary.android)
     //引入卡顿监控实现依赖库
     //debugImplementation("io.github.knight-zxw:blockcanary:0.0.5")
     //引入卡顿消息通知及相关展示UI

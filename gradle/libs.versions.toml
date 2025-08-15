@@ -21,6 +21,7 @@ androidXConstraintlayout = "2.2.1"
 hilt = "2.57"
 flexibleAdapter = "5.1.0"
 flexibleAdapterUI = "1.0.0"
+leakcanaryAndroid = "2.14"
 retrofit = "3.0.0"
 okHttp = "5.1.0"
 sandwich = "2.1.2"
@@ -208,6 +209,7 @@ utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 objectbox = { module = "io.objectbox:objectbox-gradle-plugin", version.ref = "objectbox" }
 color-chooser = { module = "net.mm2d.color-chooser:color-chooser-compose", version.ref = "color-chooser" }
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 
 # unit test
 junit = { module = "junit:junit", version.ref = "junit" }
