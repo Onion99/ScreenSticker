@@ -23,7 +23,7 @@ jobs:
       - name: Decode Keystore
         # 从 secrets 中读取 Base64 字符串并解码回 .jks 文件
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/release-keystore.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/app/sign/release.jks
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
@@ -37,11 +37,11 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Find AAB file
-        # 找到构建产物 AAB 文件的路径
-        id: find_aab
+      - name: Find APK file
+        # 找到构建产物 APK 文件的路径
+        id: find_apk
         run: |
-          apk_path=$(find app/build/outputs/apk/release -name '*.apk' | head -n 1)
+          apk_path=$(find app/build/outputs/apk/package/ScreenSticker-package-release.apk -name '*.apk' | head -n 1)
            if [ -z "$apk_path" ]; then
             echo "::error::APK file not found!"
             # (可选) 添加一个 ls 命令来调试，看看文件到底生成在了哪里
@@ -51,13 +51,13 @@ jobs:
           echo "Found APK at: $apk_path"
           echo "path=$apk_path" >> $GITHUB_OUTPUT
 
-      - name: Upload Release AAB
+      - name: Upload Release APK
         # 使用 actions/upload-release-asset 将 AAB 文件上传到 GitHub Release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{ steps.find_apk.outputs.path }}
-          asset_name: app-release.apk  # 你可以自定义上传后的文件名
+          #asset_name: app-release.apk  # 你可以自定义上传后的文件名
           asset_content_type: application/vnd.android.package-archive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

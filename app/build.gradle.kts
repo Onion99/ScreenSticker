@@ -95,7 +95,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            setProperty("archivesBaseName", "${Configuration.app}_v${Configuration.versionCode}")
+            setProperty("archivesBaseName", "${Configuration.app}")
         }
     }
 
@@ -162,9 +162,10 @@ dependencies {
     // image
     implementation(libs.coil.compose)
     implementation(libs.color.chooser)
-    //noinspection UseTomlInstead
-    //"normalImplementation"("com.squareup.leakcanary:leakcanary-android:2.14")
+    // performance
     implementation(libs.leakcanary.android)
+    // local db
+    implementation(libs.mmkv)
     //引入卡顿监控实现依赖库
     //debugImplementation("io.github.knight-zxw:blockcanary:0.0.5")
     //引入卡顿消息通知及相关展示UI
