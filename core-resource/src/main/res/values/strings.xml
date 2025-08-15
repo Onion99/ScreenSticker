@@ -11,6 +11,6 @@
     <string name="image_tip">贴图片</string>
     <string name="album">图片</string>
     <string name="camera">相机</string>
-    <string name="help">help</string>
-    <string name="help_tip">helpText</string>
+    <string name="style">样式</string>
+    <string name="style_tip">颜色风格调整</string>
 </resources>
