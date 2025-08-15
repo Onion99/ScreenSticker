@@ -8,7 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write # 授予工作流写入仓库内容的权限，包括上传 Release Assets
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -51,13 +52,12 @@ jobs:
           echo "Found APK at: $apk_path"
           echo "path=$apk_path" >> $GITHUB_OUTPUT
 
-      - name: Upload Release APK
-        # 使用 actions/upload-release-asset 将 AAB 文件上传到 GitHub Release
-        uses: actions/upload-release-asset@v1
+      - name: Upload APK to Release
+        # 使用社区推荐的、更现代的 Action
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ steps.find_apk.outputs.path }}
-          asset_name: ScreenSticker.apk  # 你可以自定义上传后的文件名
-          asset_content_type: application/vnd.android.package-archive
+          # 使用通配符自动查找并上传所有 APK 文件
+          # 请确认你的模块名是 'app'，如果不是请修改
+          files: app/build/outputs/apk/package/release/*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
