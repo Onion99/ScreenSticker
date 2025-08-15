@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import com.omega.resource.R
 import com.omega.sun.service.FloatingWindowService
 import com.omega.sun.ui.controller.base.BaseLifecycleController
+import com.tencent.mmkv.MMKV
 import net.mm2d.color.chooser.compose.ColorChooserDialog
 import kotlinx.coroutines.launch
 
+private const val KEY_TEXT = "KEY_TEXT"
 // The controller remains the same.
 class HomeController : BaseLifecycleController() {
     @Composable
@@ -50,7 +52,7 @@ class HomeController : BaseLifecycleController() {
 @Composable
 fun HomeScreen() {
     val context = LocalContext.current
-    var textState by remember { mutableStateOf("") }
+    var textState by remember { mutableStateOf(MMKV.defaultMMKV().decodeString(KEY_TEXT, "") ?: "") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var backgroundColor by remember { mutableStateOf(Color.LightGray.copy(alpha = 0.8f)) }
     var textColor by remember { mutableStateOf(Color.Black) }
@@ -145,12 +147,15 @@ fun HomeScreen() {
                 ) {
                     OutlinedTextField(
                         value = textState,
-                        onValueChange = { textState = it },
+                        onValueChange = {
+                            textState = it
+                            MMKV.defaultMMKV().encode(KEY_TEXT, it)
+                        },
                         label = { Text(stringResource(id = R.string.text_edit_tip)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp),
-                        placeholder = { Text("Jot down a quick thought...") },
+                        placeholder = { Text(stringResource(id = R.string.text_edit_tip2)) },
                         shape = RoundedCornerShape(12.dp)
                     )
 
@@ -210,6 +215,7 @@ fun HomeScreen() {
                                     val textToPaste = clipData.getItemAt(0).text
                                     if (textToPaste != null) {
                                         textState = textToPaste.toString()
+                                        MMKV.defaultMMKV().encode(KEY_TEXT, textState)
                                         // Now, launch the floating window
                                         if (Settings.canDrawOverlays(context)) {
                                             val intent = Intent(

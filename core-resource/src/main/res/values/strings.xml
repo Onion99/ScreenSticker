@@ -6,6 +6,7 @@
     <string name="home_title">屏幕贴纸</string>
     <string name="text_tip">贴文本</string>
     <string name="text_edit_tip">输入你想粘贴的内容</string>
+    <string name="text_edit_tip2">…</string>
     <string name="paste_text_to_screen">粘贴到屏幕</string>
     <string name="paste_clipboard_to_screen">从剪切板导入</string>
     <string name="image_tip">贴图片</string>

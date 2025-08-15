@@ -1,7 +1,7 @@
 package com.omega.build
 
 object Configuration {
-  const val app = "Snipaste"
+  const val app = "ScreenSticker"
   const val compileSdk = 36
   const val targetSdk = 36
   const val minSdk = 26
