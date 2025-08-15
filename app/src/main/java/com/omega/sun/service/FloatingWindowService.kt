@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -132,14 +133,20 @@ class FloatingWindowService : LifecycleService() {
 
     @Composable
     private fun FloatingWidget(text: String?, imageUri: Uri?, params: WindowManager.LayoutParams, onClose: () -> Unit) {
-        var visible by remember { mutableStateOf(true) }
+        var visible by remember { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+            visible = true
+        }
         val alpha by animateFloatAsState(
             targetValue = if (visible) 1f else 0f,
             finishedListener = { if (!visible) onClose() }
         )
-
+        val scale by animateFloatAsState(
+            targetValue = if (visible) 1f else 0.8f
+        )
         Box(
             modifier = Modifier
+                .scale(scale)
                 .alpha(alpha)
                 .pointerInput(Unit) {
                     detectTapGestures(
@@ -170,8 +177,7 @@ class FloatingWindowService : LifecycleService() {
                         model = imageUri,
                         contentDescription = "Selected Image",
                         modifier = Modifier
-                            .size(200.dp)
-                            .padding(end = 8.dp),
+                            .size(200.dp),
                         contentScale = ContentScale.Crop
                     )
                 }
