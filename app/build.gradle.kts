@@ -150,10 +150,8 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.splash.screen)
     implementation(libs.startup)
-    implementation(libs.unpeek)
-    //noinspection UseTomlInstead
-    implementation("androidx.core:core-splashscreen:1.0.1")
     // di
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -161,6 +159,8 @@ dependencies {
     kaptAndroidTest(libs.hilt.compiler)
     // coroutines
     implementation(libs.coroutines)
+    // image
+    implementation(libs.coil.compose)
     //noinspection UseTomlInstead
     "normalImplementation"("com.squareup.leakcanary:leakcanary-android:2.14")
     //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")

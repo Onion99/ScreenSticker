@@ -11,7 +11,7 @@ configurations.all {
         force libs.androidx.lifecycle.livedata
         force libs.androidx.lifecycle.viewmodel.ktx
         force libs.androidx.constraintlayout
-        force libs.recyclerview
+        force libs.androidx.recyclerview
         force libs.androidx.core.ktx
         force libs.androidx.arch.core
         force libs.androidx.arch.core.runtime

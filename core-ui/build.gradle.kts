@@ -43,13 +43,11 @@ dependencies {
   api(libs.conductor.core)
   api(libs.conductor.autodispose)
   api(libs.conductor.archlifecycle)
+  // ---- fresco ------
   api(libs.fresco)
   api(libs.frescoGif)
   api(libs.frescoDrawable)
   api(libs.fresco.okhttp)
-  api(libs.shapeofview)
-  compileOnly(libs.utilcodex)
-  compileOnly(libs.mmkv)
   // ---- compose ------
   val composeBom = platform(libs.androidx.compose.bom)
   api(composeBom)

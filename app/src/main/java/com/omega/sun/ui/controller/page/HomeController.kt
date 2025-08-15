@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,6 +47,7 @@ class HomeController : BaseLifecycleController() {
 fun HomeScreen() {
     val context = LocalContext.current
     var textState by remember { mutableStateOf("") }
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     // Launcher to request overlay permission
     val overlayPermissionLauncher = rememberLauncherForActivityResult(
@@ -53,10 +55,15 @@ fun HomeScreen() {
     ) {
         // After returning from settings, check permission again
         if (Settings.canDrawOverlays(context)) {
-            // Permission granted, start the service with the current text
+            // Permission granted, start the service with the current text or image
             if (textState.isNotBlank()) {
                 val intent = Intent(context, FloatingWindowService::class.java).apply {
                     putExtra("EXTRA_TEXT", textState)
+                }
+                context.startService(intent)
+            } else if (imageUri != null) {
+                val intent = Intent(context, FloatingWindowService::class.java).apply {
+                    putExtra("EXTRA_IMAGE_URI", imageUri)
                 }
                 context.startService(intent)
             }
@@ -65,18 +72,29 @@ fun HomeScreen() {
         }
     }
 
+    // Launcher for picking an image from the gallery
+    val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            imageUri = uri
+            if (Settings.canDrawOverlays(context)) {
+                val intent = Intent(context, FloatingWindowService::class.java).apply {
+                    putExtra("EXTRA_IMAGE_URI", imageUri)
+                }
+                context.startService(intent)
+            } else {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:${context.packageName}")
+                )
+                overlayPermissionLauncher.launch(intent)
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(id = R.string.home_title), style = MaterialTheme.typography.titleLarge) },
-                /*navigationIcon = {
-                    Icon(
-                        painter = painterResource(id = com.omega.sun.R.drawable.ic_launcher), // Using the app icon
-                        contentDescription = "App Icon",
-                        modifier = Modifier.padding(start = 8.dp).size(32.dp),
-                        tint = Color.Unspecified // Important: Use the original colors
-                    )
-                },*/
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                 )
@@ -105,7 +123,6 @@ fun HomeScreen() {
                             .fillMaxWidth()
                             .height(150.dp),
                         placeholder = { Text("Jot down a quick thought...") },
-                        //leadingIcon = { Icon(Icons.AutoMirrored.Rounded.Notes, contentDescription = null) },
                         shape = RoundedCornerShape(12.dp)
                     )
 
@@ -179,7 +196,9 @@ fun HomeScreen() {
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         FilledTonalButton(
-                            onClick = { /* TODO: album action */ },
+                            onClick = {
+                                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                            },
                             modifier = Modifier.weight(1f).height(56.dp)
                         ) {
                             Icon(Icons.Rounded.PhotoLibrary, contentDescription = null)

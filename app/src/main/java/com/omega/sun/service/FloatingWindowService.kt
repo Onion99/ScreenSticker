@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.os.Bundle
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
+import coil.compose.AsyncImage
 import kotlin.math.roundToInt
 
 class FloatingWindowService : LifecycleService() {
@@ -64,7 +67,8 @@ class FloatingWindowService : LifecycleService() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        val text = intent?.getStringExtra("EXTRA_TEXT") ?: "Default Text"
+        val text = intent?.getStringExtra("EXTRA_TEXT")
+        val imageUri = intent?.getParcelableExtra<Uri>("EXTRA_IMAGE_URI")
 
         if (floatingWidget == null) {
             val params = WindowManager.LayoutParams(
@@ -92,7 +96,7 @@ class FloatingWindowService : LifecycleService() {
                 setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
                 setContent {
-                    FloatingWidget(text = text, params = params, onClose = { stopSelf() })
+                    FloatingWidget(text = text, imageUri = imageUri, params = params, onClose = { stopSelf() })
                 }
             }
             windowManager.addView(floatingWidget, params)
@@ -114,7 +118,7 @@ class FloatingWindowService : LifecycleService() {
     }
 
     @Composable
-    private fun FloatingWidget(text: String, params: WindowManager.LayoutParams, onClose: () -> Unit) {
+    private fun FloatingWidget(text: String?, imageUri: Uri?, params: WindowManager.LayoutParams, onClose: () -> Unit) {
         Box(
             modifier = Modifier
                 .pointerInput(Unit) {
@@ -133,7 +137,19 @@ class FloatingWindowService : LifecycleService() {
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text, modifier = Modifier.padding(end = 8.dp))
+                if (text != null) {
+                    Text(text, modifier = Modifier.padding(end = 8.dp))
+                }
+                if (imageUri != null) {
+                    AsyncImage(
+                        model = imageUri,
+                        contentDescription = "Selected Image",
+                        modifier = Modifier
+                            .size(200.dp)
+                            .padding(end = 8.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
                 IconButton(onClick = onClose, modifier = Modifier.size(24.dp)) {
                     Icon(Icons.Default.Close, contentDescription = "Close")
                 }
