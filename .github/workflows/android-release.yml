@@ -30,7 +30,7 @@ jobs:
 
       - name: Build with Gradle
         # 运行 Gradle 打包命令，并通过 env 传入 secrets
-        run: ./gradlew bundleRelease
+        run: ./gradlew assembleRelease
         env:
           KEYSTORE_FILE: ${{ github.workspace }}/release-keystore.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -41,16 +41,23 @@ jobs:
         # 找到构建产物 AAB 文件的路径
         id: find_aab
         run: |
-          aab_path=$(find app/build/outputs/bundle/release -name '*.aab' | head -n 1)
-          echo "path=$aab_path" >> $GITHUB_OUTPUT
+          apk_path=$(find app/build/outputs/apk/release -name '*.apk' | head -n 1)
+           if [ -z "$apk_path" ]; then
+            echo "::error::APK file not found!"
+            # (可选) 添加一个 ls 命令来调试，看看文件到底生成在了哪里
+            ls -R app/build/outputs/
+            exit 1
+          fi
+          echo "Found APK at: $apk_path"
+          echo "path=$apk_path" >> $GITHUB_OUTPUT
 
       - name: Upload Release AAB
         # 使用 actions/upload-release-asset 将 AAB 文件上传到 GitHub Release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ steps.find_aab.outputs.path }}
-          asset_name: app-release.aab  # 你可以自定义上传后的文件名
+          asset_path: ${{ steps.find_apk.outputs.path }}
+          asset_name: app-release.apk  # 你可以自定义上传后的文件名
           asset_content_type: application/vnd.android.package-archive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
