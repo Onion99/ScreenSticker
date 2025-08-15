@@ -85,7 +85,6 @@ abstract class BaseLifecycleController(args: Bundle? = null) : BaseController(ar
     }
 
     init {
-        watchForLeaks()
         addLifecycleListener(object : LifecycleListener() {
             override fun preCreateView(controller: Controller) {
                 super.preCreateView(controller)

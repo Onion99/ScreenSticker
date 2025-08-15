@@ -7,9 +7,6 @@ import com.bluelinelabs.conductor.Controller
 
 abstract class BaseController(args: Bundle? = null) : Controller(args) {
 
-    init {
-        watchForLeaks()
-    }
 
     val fragmentActivity: FragmentActivity?
         get() {

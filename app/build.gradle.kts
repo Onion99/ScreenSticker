@@ -163,7 +163,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.color.chooser)
     // performance
-    implementation(libs.leakcanary.android)
+    //implementation(libs.leakcanary.android)
     // local db
     implementation(libs.mmkv)
     //引入卡顿监控实现依赖库
