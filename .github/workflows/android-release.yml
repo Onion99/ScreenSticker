@@ -1,0 +1,56 @@
+name: Android Release Build
+
+# 触发条件：当创建一个新的 GitHub Release 时触发
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Decode Keystore
+        # 从 secrets 中读取 Base64 字符串并解码回 .jks 文件
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > ${{ github.workspace }}/release-keystore.jks
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        # 运行 Gradle 打包命令，并通过 env 传入 secrets
+        run: ./gradlew bundleRelease
+        env:
+          KEYSTORE_FILE: ${{ github.workspace }}/release-keystore.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Find AAB file
+        # 找到构建产物 AAB 文件的路径
+        id: find_aab
+        run: |
+          aab_path=$(find app/build/outputs/bundle/release -name '*.aab' | head -n 1)
+          echo "path=$aab_path" >> $GITHUB_OUTPUT
+
+      - name: Upload Release AAB
+        # 使用 actions/upload-release-asset 将 AAB 文件上传到 GitHub Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ steps.find_aab.outputs.path }}
+          asset_name: app-release.aab  # 你可以自定义上传后的文件名
+          asset_content_type: application/vnd.android.package-archive
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
