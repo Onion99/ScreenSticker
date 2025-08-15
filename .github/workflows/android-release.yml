@@ -41,7 +41,7 @@ jobs:
         # 找到构建产物 APK 文件的路径
         id: find_apk
         run: |
-          apk_path=$(find app/build/outputs/apk/package/ScreenSticker-package-release.apk -name '*.apk' | head -n 1)
+          apk_path=$(find app/build/outputs/apk/package/release/ScreenSticker-package-release.apk -name '*.apk' | head -n 1)
            if [ -z "$apk_path" ]; then
             echo "::error::APK file not found!"
             # (可选) 添加一个 ls 命令来调试，看看文件到底生成在了哪里
