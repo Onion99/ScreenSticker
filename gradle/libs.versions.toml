@@ -68,6 +68,7 @@ paging="3.3.6"
 mars="1.2.6"
 vap="2.0.28"
 coil = "2.7.0"
+color-chooser = "0.1.0"
 
 #==Compose
 androidx-activity-compose = "1.10.1"
@@ -76,6 +77,7 @@ androidx-compose-bom = "2025.08.00"
 android-material3 = "1.14.0-alpha03"
 accompanist = "0.37.3"
 lifecycleService = "2.9.2"
+runtimeSaveable = "1.9.0"
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -205,6 +207,7 @@ startup = { module = "io.github.idisfkj:android-startup", version.ref = "startup
 utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 objectbox = { module = "io.objectbox:objectbox-gradle-plugin", version.ref = "objectbox" }
+color-chooser = { module = "net.mm2d.color-chooser:color-chooser-compose", version.ref = "color-chooser" }
 
 # unit test
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -218,3 +221,4 @@ profileinstaller = { module = "androidx.profileinstaller:profileinstaller", vers
 macrobenchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "macroBenchmark" }
 uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiAutomator" }
 androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycleService" }
+androidx-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "runtimeSaveable" }

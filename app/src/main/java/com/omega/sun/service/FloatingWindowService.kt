@@ -83,6 +83,9 @@ class FloatingWindowService : LifecycleService() {
         super.onStartCommand(intent, flags, startId)
         val text = intent?.getStringExtra("EXTRA_TEXT")
         val imageUri = intent?.getParcelableExtra<Uri>("EXTRA_IMAGE_URI")
+        val backgroundColor = intent?.getIntExtra("EXTRA_BACKGROUND_COLOR", 0) ?: 0
+        val textColor = intent?.getIntExtra("EXTRA_TEXT_COLOR", 0) ?: 0
+
 
         if (floatingWidget == null) {
             val params = WindowManager.LayoutParams(
@@ -110,7 +113,14 @@ class FloatingWindowService : LifecycleService() {
                 setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
 
                 setContent {
-                    FloatingWidget(text = text, imageUri = imageUri, params = params, onClose = { stopSelf() })
+                    FloatingWidget(
+                        text = text,
+                        imageUri = imageUri,
+                        params = params,
+                        backgroundColor = Color(backgroundColor),
+                        textColor = Color(textColor),
+                        onClose = { stopSelf() }
+                    )
                 }
             }
             windowManager.addView(floatingWidget, params)
@@ -132,7 +142,14 @@ class FloatingWindowService : LifecycleService() {
     }
 
     @Composable
-    private fun FloatingWidget(text: String?, imageUri: Uri?, params: WindowManager.LayoutParams, onClose: () -> Unit) {
+    private fun FloatingWidget(
+        text: String?,
+        imageUri: Uri?,
+        params: WindowManager.LayoutParams,
+        backgroundColor: Color,
+        textColor: Color,
+        onClose: () -> Unit
+    ) {
         var visible by remember { mutableStateOf(false) }
         LaunchedEffect(Unit) {
             visible = true
@@ -165,18 +182,24 @@ class FloatingWindowService : LifecycleService() {
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color.LightGray.copy(alpha = 0.8f))
+                    .background(backgroundColor.copy(alpha = 0.8f))
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (text != null) {
-                    Text(text, modifier = Modifier.padding(end = 8.dp))
+                    Text(
+                        text,
+                        modifier = Modifier.padding(end = 8.dp),
+                        color = textColor
+                    )
                 }
                 if (imageUri != null) {
                     AsyncImage(
                         model = imageUri,
                         contentDescription = "Selected Image",
-                        modifier = Modifier.size(200.dp).clip(RoundedCornerShape(12.dp)),
+                        modifier = Modifier
+                            .size(200.dp)
+                            .clip(RoundedCornerShape(12.dp)),
                         contentScale = ContentScale.Crop
                     )
                 }

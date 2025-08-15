@@ -1,6 +1,5 @@
 package com.omega.sun.ui.controller.page
 
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -13,12 +12,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.omega.resource.R
 import com.omega.sun.service.FloatingWindowService
 import com.omega.sun.ui.controller.base.BaseLifecycleController
+import net.mm2d.color.chooser.compose.ColorChooserDialog
 
 // The controller remains the same.
 class HomeController : BaseLifecycleController() {
@@ -48,6 +51,10 @@ fun HomeScreen() {
     val context = LocalContext.current
     var textState by remember { mutableStateOf("") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var backgroundColor by remember { mutableStateOf(Color.LightGray.copy(alpha = 0.8f)) }
+    var textColor by remember { mutableStateOf(Color.Black) }
+    var bgColorDialogShow by rememberSaveable { mutableStateOf(false) }
+    var textColorDialogShow by rememberSaveable { mutableStateOf(false) }
 
     // Launcher to request overlay permission
     val overlayPermissionLauncher = rememberLauncherForActivityResult(
@@ -59,11 +66,15 @@ fun HomeScreen() {
             if (textState.isNotBlank()) {
                 val intent = Intent(context, FloatingWindowService::class.java).apply {
                     putExtra("EXTRA_TEXT", textState)
+                    putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.toArgb())
+                    putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
                 }
                 context.startService(intent)
             } else if (imageUri != null) {
                 val intent = Intent(context, FloatingWindowService::class.java).apply {
                     putExtra("EXTRA_IMAGE_URI", imageUri)
+                    putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.toArgb())
+                    putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
                 }
                 context.startService(intent)
             }
@@ -73,28 +84,36 @@ fun HomeScreen() {
     }
 
     // Launcher for picking an image from the gallery
-    val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            imageUri = uri
-            if (Settings.canDrawOverlays(context)) {
-                val intent = Intent(context, FloatingWindowService::class.java).apply {
-                    putExtra("EXTRA_IMAGE_URI", imageUri)
+    val pickMedia =
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                imageUri = uri
+                if (Settings.canDrawOverlays(context)) {
+                    val intent = Intent(context, FloatingWindowService::class.java).apply {
+                        putExtra("EXTRA_IMAGE_URI", imageUri)
+                        putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.toArgb())
+                        putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                    }
+                    context.startService(intent)
+                } else {
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:${context.packageName}")
+                    )
+                    overlayPermissionLauncher.launch(intent)
                 }
-                context.startService(intent)
-            } else {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:${context.packageName}")
-                )
-                overlayPermissionLauncher.launch(intent)
             }
         }
-    }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(stringResource(id = R.string.home_title), style = MaterialTheme.typography.titleLarge) },
+                title = {
+                    Text(
+                        stringResource(id = R.string.home_title),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                 )
@@ -136,9 +155,15 @@ fun HomeScreen() {
                             onClick = {
                                 if (textState.isBlank()) return@Button
                                 if (Settings.canDrawOverlays(context)) {
-                                    val intent = Intent(context, FloatingWindowService::class.java).apply {
-                                        putExtra("EXTRA_TEXT", textState)
-                                    }
+                                    val intent =
+                                        Intent(context, FloatingWindowService::class.java).apply {
+                                            putExtra("EXTRA_TEXT", textState)
+                                            putExtra(
+                                                "EXTRA_BACKGROUND_COLOR",
+                                                backgroundColor.toArgb()
+                                            )
+                                            putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                                        }
                                     context.startService(intent)
                                 } else {
                                     val intent = Intent(
@@ -150,13 +175,18 @@ fun HomeScreen() {
                             },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Icon(Icons.Rounded.Launch, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+                            Icon(
+                                Icons.Rounded.Launch,
+                                contentDescription = null,
+                                modifier = Modifier.size(ButtonDefaults.IconSize)
+                            )
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text(stringResource(id = R.string.paste_text_to_screen))
                         }
                         OutlinedButton(
                             onClick = {
-                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                val clipboard =
+                                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 val clipData = clipboard.primaryClip
                                 if (clipData != null && clipData.itemCount > 0) {
                                     val textToPaste = clipData.getItemAt(0).text
@@ -164,8 +194,16 @@ fun HomeScreen() {
                                         textState = textToPaste.toString()
                                         // Now, launch the floating window
                                         if (Settings.canDrawOverlays(context)) {
-                                            val intent = Intent(context, FloatingWindowService::class.java).apply {
+                                            val intent = Intent(
+                                                context,
+                                                FloatingWindowService::class.java
+                                            ).apply {
                                                 putExtra("EXTRA_TEXT", textState)
+                                                putExtra(
+                                                    "EXTRA_BACKGROUND_COLOR",
+                                                    backgroundColor.toArgb()
+                                                )
+                                                putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
                                             }
                                             context.startService(intent)
                                         } else {
@@ -177,7 +215,11 @@ fun HomeScreen() {
                             },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Icon(Icons.Rounded.ContentPaste, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+                            Icon(
+                                Icons.Rounded.ContentPaste,
+                                contentDescription = null,
+                                modifier = Modifier.size(ButtonDefaults.IconSize)
+                            )
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text(stringResource(id = R.string.paste_clipboard_to_screen))
                         }
@@ -199,7 +241,9 @@ fun HomeScreen() {
                             onClick = {
                                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                             },
-                            modifier = Modifier.weight(1f).height(56.dp)
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(56.dp)
                         ) {
                             Icon(Icons.Rounded.PhotoLibrary, contentDescription = null)
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -207,7 +251,9 @@ fun HomeScreen() {
                         }
                         FilledTonalButton(
                             onClick = { /* TODO: camera action */ },
-                            modifier = Modifier.weight(1f).height(56.dp)
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(56.dp)
                         ) {
                             Icon(Icons.Rounded.PhotoCamera, contentDescription = null)
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -216,21 +262,70 @@ fun HomeScreen() {
                     }
                 }
             }
-
             // --- Help Section ---
             item {
                 ActionCard(
-                    title = stringResource(id = R.string.style),
-                    icon = Icons.Rounded.Style
+                    title = stringResource(id = R.string.help),
+                    icon = Icons.AutoMirrored.Rounded.HelpOutline
                 ) {
                     Text(
-                        text = stringResource(id = R.string.style_tip),
+                        text = stringResource(id = R.string.help_tip),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
+            // --- Style Section ---
+            item {
+                ActionCard(
+                    title = stringResource(id = R.string.style),
+                    icon = Icons.Rounded.Style
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        FilledTonalButton(
+                            onClick = {
+                                bgColorDialogShow = true
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(56.dp)
+                        ) {
+                            Icon(Icons.Rounded.Colorize, contentDescription = null)
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                            Text(stringResource(id = R.string.background_color))
+                        }
+                        FilledTonalButton(
+                            onClick = {
+                                textColorDialogShow = true
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(56.dp)
+                        ) {
+                            Icon(Icons.Rounded.TextFields, contentDescription = null)
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                            Text(stringResource(id = R.string.text_color))
+                        }
+                    }
+                }
+            }
         }
+    }
+    if(bgColorDialogShow||textColorDialogShow){
+        ColorChooserDialog(
+            initialColor = Color(if(bgColorDialogShow) backgroundColor.value else textColor.value),
+            onDismissRequest = {
+                if(bgColorDialogShow) bgColorDialogShow = false
+                else textColorDialogShow = false
+            },
+            onChooseColor = { color ->
+                if(bgColorDialogShow) backgroundColor = color
+                else textColor = color
+            }
+        )
     }
 }
 

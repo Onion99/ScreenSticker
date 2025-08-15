@@ -3,7 +3,7 @@
     <string name="key_1">Sign in with Google</string>
     <string name="key_2">Sign in with Facebook</string>
 
-    <string name="home_title">Snipaste</string>
+    <string name="home_title">屏幕贴纸</string>
     <string name="text_tip">贴文本</string>
     <string name="text_edit_tip">输入你想粘贴的内容</string>
     <string name="paste_text_to_screen">粘贴到屏幕</string>
@@ -13,4 +13,8 @@
     <string name="camera">相机</string>
     <string name="style">样式</string>
     <string name="style_tip">颜色风格调整</string>
+    <string name="background_color">贴纸背景颜色</string>
+    <string name="text_color">贴纸文本颜色</string>
+    <string name="help">帮助</string>
+    <string name="help_tip">弹出之后,双击弹窗就可以退出啦</string>
 </resources>

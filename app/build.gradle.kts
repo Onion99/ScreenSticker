@@ -41,7 +41,6 @@ android {
         buildConfigField("boolean", "BuildBundle", project.properties["USE_BUNDLE"].toString())
         buildConfigField("String", "CV", "\"${Configuration.app}${Configuration.versionName}_Android\"")
         buildConfigField("String", "ConfigKey", "\"${Configuration.app}_android_sw_list\"")
-        buildConfigField("String", "AppName", "\"${Configuration.app}\"")
     }
     bundle {
         language.enableSplit = false
@@ -154,6 +153,7 @@ dependencies {
     implementation(libs.startup)
     // di
     implementation(libs.hilt.android)
+    implementation(libs.androidx.runtime.saveable)
     kapt(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.testing)
     kaptAndroidTest(libs.hilt.compiler)
@@ -161,6 +161,7 @@ dependencies {
     implementation(libs.coroutines)
     // image
     implementation(libs.coil.compose)
+    implementation(libs.color.chooser)
     //noinspection UseTomlInstead
     "normalImplementation"("com.squareup.leakcanary:leakcanary-android:2.14")
     //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
