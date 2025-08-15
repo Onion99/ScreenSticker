@@ -17,4 +17,8 @@
     <string name="text_color">贴纸文本颜色</string>
     <string name="help">帮助</string>
     <string name="help_tip">弹出之后,双击弹窗就可以退出啦</string>
+    <string name="overlay_permission_required">没有悬浮权限,本应用啥也做不到的啦</string>
+    <string name="grant">"""(●'◡'●)"""</string>
+    <string name="camera_no">看起来有点鸡肋,应该没必要</string>
+    <string name="empty">空空如也,没有内容哦</string>
 </resources>

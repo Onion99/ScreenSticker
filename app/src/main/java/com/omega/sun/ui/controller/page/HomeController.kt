@@ -30,6 +30,7 @@ import com.omega.resource.R
 import com.omega.sun.service.FloatingWindowService
 import com.omega.sun.ui.controller.base.BaseLifecycleController
 import net.mm2d.color.chooser.compose.ColorChooserDialog
+import kotlinx.coroutines.launch
 
 // The controller remains the same.
 class HomeController : BaseLifecycleController() {
@@ -55,6 +56,8 @@ fun HomeScreen() {
     var textColor by remember { mutableStateOf(Color.Black) }
     var bgColorDialogShow by rememberSaveable { mutableStateOf(false) }
     var textColorDialogShow by rememberSaveable { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     // Launcher to request overlay permission
     val overlayPermissionLauncher = rememberLauncherForActivityResult(
@@ -79,7 +82,12 @@ fun HomeScreen() {
                 context.startService(intent)
             }
         } else {
-            // TODO: Show a snackbar or toast that permission is required
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = context.getString(R.string.camera_no),
+                    actionLabel = context.getString(R.string.grant)
+                )
+            }
         }
     }
 
@@ -119,7 +127,8 @@ fun HomeScreen() {
                 )
             )
         },
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surface,
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -153,7 +162,16 @@ fun HomeScreen() {
                     ) {
                         Button(
                             onClick = {
-                                if (textState.isBlank()) return@Button
+                                if (textState.isBlank()) {
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            message = context.getString(R.string.empty),
+                                            actionLabel = context.getString(R.string.grant),
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                    return@Button
+                                }
                                 if (Settings.canDrawOverlays(context)) {
                                     val intent =
                                         Intent(context, FloatingWindowService::class.java).apply {
@@ -210,6 +228,16 @@ fun HomeScreen() {
                                             val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${context.packageName}"))
                                             overlayPermissionLauncher.launch(intent)
                                         }
+                                    }else {
+                                        if (textState.isBlank()) {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar(
+                                                    message = context.getString(R.string.empty),
+                                                    actionLabel = context.getString(R.string.grant),
+                                                    duration = SnackbarDuration.Short
+                                                )
+                                            }
+                                        }
                                     }
                                 }
                             },
@@ -250,7 +278,15 @@ fun HomeScreen() {
                             Text(stringResource(id = R.string.album))
                         }
                         FilledTonalButton(
-                            onClick = { /* TODO: camera action */ },
+                            onClick = {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = context.getString(R.string.overlay_permission_required),
+                                        actionLabel = context.getString(R.string.grant),
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            },
                             modifier = Modifier
                                 .weight(1f)
                                 .height(56.dp)
