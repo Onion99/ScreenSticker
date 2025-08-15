@@ -1,5 +1,8 @@
 package com.omega.sun.ui.controller.page
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -135,7 +138,26 @@ fun HomeScreen() {
                             Text(stringResource(id = R.string.paste_text_to_screen))
                         }
                         OutlinedButton(
-                            onClick = { /* TODO: pasteClipboard action */ },
+                            onClick = {
+                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                val clipData = clipboard.primaryClip
+                                if (clipData != null && clipData.itemCount > 0) {
+                                    val textToPaste = clipData.getItemAt(0).text
+                                    if (textToPaste != null) {
+                                        textState = textToPaste.toString()
+                                        // Now, launch the floating window
+                                        if (Settings.canDrawOverlays(context)) {
+                                            val intent = Intent(context, FloatingWindowService::class.java).apply {
+                                                putExtra("EXTRA_TEXT", textState)
+                                            }
+                                            context.startService(intent)
+                                        } else {
+                                            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${context.packageName}"))
+                                            overlayPermissionLauncher.launch(intent)
+                                        }
+                                    }
+                                }
+                            },
                             modifier = Modifier.weight(1f)
                         ) {
                             Icon(Icons.Rounded.ContentPaste, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
