@@ -176,8 +176,7 @@ class FloatingWindowService : LifecycleService() {
                     AsyncImage(
                         model = imageUri,
                         contentDescription = "Selected Image",
-                        modifier = Modifier
-                            .size(200.dp),
+                        modifier = Modifier.size(200.dp).clip(RoundedCornerShape(12.dp)),
                         contentScale = ContentScale.Crop
                     )
                 }
