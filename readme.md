@@ -44,5 +44,4 @@
 -   **UI**: [Jetpack Compose](https://developer.android.com/jetpack/compose) - 用于构建声明式、响应迅速的用户界面。
 -   **Route**: [Conductor](https://github.com/bluelinelabs/Conductor) - 一个基于View管理,轻量级别的页面路由
 -   **数据持久化**: [MMKV](https://github.com/Tencent/MMKV) - 基于 mmap 的高性能键值对存储框架，用于在应用重启后恢复贴纸数据。
--   **架构**: 遵循关注点分离原则，UI 与业务逻辑分离，易于维护和扩展。
 
