@@ -20,7 +20,7 @@
 
 | 首页 |                                                                                   文本贴纸                                                                                   | 图片贴纸 |
 | :---: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :---: |
-| ![1080X2400/pVBCREQ.png](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/yqwR/1080X2400/pVBCREQ.png?imageMogr2/thumbnail/300x) | ![415X912/sticker_text.gif](https://tc-new.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/Wtn1/415X912/sticker_text.gif)  | ![415X914/sticker_image.gif](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/98Jq/415X914/sticker_image.gif) |
+| ![1080X2400/pVBCREQ.png](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/yqwR/1080X2400/pVBCREQ.png?imageMogr2/thumbnail/300x) | ![415X912/sticker_text.gif](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/LXke/415X912/sticker_text.gif) | ![415X914/sticker_image.gif](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/98Jq/415X914/sticker_image.gif) |
 
 
 ## 💡 如何使用
