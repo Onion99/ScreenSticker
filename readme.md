@@ -18,9 +18,9 @@
 
 ## 📸 截图
 
-| 首页 | 文本贴纸 | 图片贴纸 |
-| :---: | :---: | :---: |
-| [![pVBCREQ.md.png](https://s21.ax1x.com/2025/08/18/pVBCREQ.md.png)](https://imgse.com/i/pVBCREQ) | ![415X914/sticker_image.gif](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/98Jq/415X914/sticker_image.gif) | ![415X914/sticker_image.gif](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/98Jq/415X914/sticker_image.gif) |
+| 首页 |                                                                                   文本贴纸                                                                                   | 图片贴纸 |
+| :---: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :---: |
+| ![1080X2400/pVBCREQ.png](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/yqwR/1080X2400/pVBCREQ.png) | ![415X912/sticker_text.gif](https://tc-new.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/Wtn1/415X912/sticker_text.gif)  | ![415X914/sticker_image.gif](https://tc.z.wiki/autoupload/f/DAA3COtys5EE-wZmO2gbJYyo45jBLIN4fgATAteXM7ayl5f0KlZfm6UsKj-HyTuv/20250818/98Jq/415X914/sticker_image.gif) |
 
 
 ## 💡 如何使用
