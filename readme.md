@@ -3,9 +3,7 @@
 **ScreenSticker** 是一款简洁实用的 Android 应用，它允许您像在现实世界中使用便利贴一样，在手机屏幕上创建浮动的“贴纸”。无论是记录一段文字提醒，还是贴上一张有趣的图片，它都能始终显示在其他应用之上，方便您随时查看。
 
 
-<video src="doc/app_intro.mp4" controls width="600">
-  您的浏览器不支持 video 标签。
-</video>
+<video src="doc/app_intro.mp4" controls width="600">您的浏览器不支持 video 标签。</video>
 
 ## ✨ 主要功能
 
