@@ -20,7 +20,7 @@
 
 | 首页 | 文本贴纸 | 图片贴纸 |
 | :---: | :---: | :---: |
-| *(此处放置应用首页截图)* | *(此处放置文本贴纸效果截图)* | *(此处放置图片贴纸效果截图)* |
+| [![pVBCREQ.png](https://s21.ax1x.com/2025/08/18/pVBCREQ.png)](https://imgse.com/i/pVBCREQ) | *(此处放置文本贴纸效果截图)* | ![sticker_image.gif](https://img.remit.ee/api/file/CgACAgUAAyEGAASHRsPbAAKMyGiitSnRooO2lshcgmOhCiv78bifAAKeGwACX7UYVQvA3aMAAZjnRjYE.gif) |
 
 
 ## 💡 如何使用
