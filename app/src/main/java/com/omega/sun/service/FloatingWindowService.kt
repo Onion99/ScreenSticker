@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
@@ -52,8 +53,20 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import coil.compose.AsyncImage
+import com.omega.sun.ui.controller.page.DEFAULT_BG_COLOR
+import com.omega.sun.ui.controller.page.DEFAULT_TEXT_COLOR
+import com.tencent.mmkv.MMKV
 import kotlin.math.roundToInt
+import androidx.core.net.toUri
 
+
+private const val KEY_CACHE_TYPE = "KEY_CACHE_TYPE"
+private const val KEY_CACHE_TEXT = "KEY_CACHE_TEXT"
+private const val KEY_CACHE_IMAGE = "KEY_CACHE_IMAGE"
+private const val KEY_CACHE_BACKGROUND_COLOR = "KEY_CACHE_BACKGROUND_COLOR"
+private const val KEY_CACHE_TEXT_COLOR = "KEY_CACHE_TEXT_COLOR"
+private const val TYPE_TEXT = "text"
+private const val TYPE_IMAGE = "image"
 class FloatingWindowService : LifecycleService() {
 
     private lateinit var windowManager: WindowManager
@@ -81,11 +94,39 @@ class FloatingWindowService : LifecycleService() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        val text = intent?.getStringExtra("EXTRA_TEXT")
-        val imageUri = intent?.getParcelableExtra<Uri>("EXTRA_IMAGE_URI")
-        val backgroundColor = intent?.getIntExtra("EXTRA_BACKGROUND_COLOR", 0) ?: 0
-        val textColor = intent?.getIntExtra("EXTRA_TEXT_COLOR", 0) ?: 0
+        var text: String? = null
+        var imageUri: Uri? = null
+        var backgroundColor: Int = DEFAULT_BG_COLOR.toArgb()
+        var textColor: Int = DEFAULT_TEXT_COLOR.toArgb()
+        val mmkv = MMKV.defaultMMKV()
+        if (intent != null) {
+            backgroundColor = intent.getIntExtra("EXTRA_BACKGROUND_COLOR", DEFAULT_BG_COLOR.toArgb())
+            textColor = intent.getIntExtra("EXTRA_TEXT_COLOR", DEFAULT_TEXT_COLOR.toArgb())
+//            mmkv.encode(KEY_CACHE_BACKGROUND_COLOR, backgroundColor)
+//            mmkv.encode(KEY_CACHE_TEXT_COLOR, textColor)
 
+            if (intent.hasExtra("EXTRA_TEXT")) {
+                text = intent.getStringExtra("EXTRA_TEXT")
+                mmkv.encode(KEY_CACHE_TYPE, TYPE_TEXT)
+                mmkv.encode(KEY_CACHE_TEXT, text)
+                mmkv.remove(KEY_CACHE_IMAGE)
+            } else if (intent.hasExtra("EXTRA_IMAGE_URI")) {
+                imageUri = intent.getParcelableExtra("EXTRA_IMAGE_URI")
+                mmkv.encode(KEY_CACHE_TYPE, TYPE_IMAGE)
+                mmkv.encode(KEY_CACHE_IMAGE, imageUri.toString())
+                mmkv.remove(KEY_CACHE_TEXT)
+            }
+        } else {
+            // Service was restarted
+            /*backgroundColor = mmkv.decodeInt(KEY_CACHE_BACKGROUND_COLOR, DEFAULT_BG_COLOR.toArgb())
+            textColor = mmkv.decodeInt(KEY_CACHE_TEXT_COLOR, DEFAULT_TEXT_COLOR.toArgb())*/
+            val type = mmkv.decodeString(KEY_CACHE_TYPE)
+            if (type == TYPE_TEXT) {
+                text = mmkv.decodeString(KEY_CACHE_TEXT)
+            } else if (type == TYPE_IMAGE) {
+                imageUri = mmkv.decodeString(KEY_CACHE_IMAGE)?.toUri()
+            }
+        }
 
         if (floatingWidget == null) {
             val params = WindowManager.LayoutParams(
@@ -136,6 +177,16 @@ class FloatingWindowService : LifecycleService() {
         floatingWidget?.let {
             windowManager.removeView(it)
         }
+        val mmkv = MMKV.defaultMMKV()
+        mmkv.removeValuesForKeys(
+            arrayOf(
+                KEY_CACHE_TYPE,
+                KEY_CACHE_TEXT,
+                KEY_CACHE_IMAGE,
+                KEY_CACHE_BACKGROUND_COLOR,
+                KEY_CACHE_TEXT_COLOR
+            )
+        )
         // Manually trigger the DESTROYED event and clear the ViewModelStore
         lifecycleOwner.onDestroy()
         viewModelStoreOwner.clear()

@@ -34,6 +34,8 @@ import net.mm2d.color.chooser.compose.ColorChooserDialog
 import kotlinx.coroutines.launch
 
 private const val KEY_TEXT = "KEY_TEXT"
+val DEFAULT_BG_COLOR = Color.LightGray.copy(alpha = 0.8f)
+val DEFAULT_TEXT_COLOR = Color.Black
 // The controller remains the same.
 class HomeController : BaseLifecycleController() {
     @Composable
@@ -54,8 +56,8 @@ fun HomeScreen() {
     val context = LocalContext.current
     var textState by remember { mutableStateOf(MMKV.defaultMMKV().decodeString(KEY_TEXT, "") ?: "") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var backgroundColor by remember { mutableStateOf(Color.LightGray.copy(alpha = 0.8f)) }
-    var textColor by remember { mutableStateOf(Color.Black) }
+    var backgroundColor by remember { mutableStateOf(DEFAULT_BG_COLOR) }
+    var textColor by remember { mutableStateOf(DEFAULT_TEXT_COLOR) }
     var bgColorDialogShow by rememberSaveable { mutableStateOf(false) }
     var textColorDialogShow by rememberSaveable { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
