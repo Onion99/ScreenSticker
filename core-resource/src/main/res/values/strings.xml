@@ -15,7 +15,11 @@
     <string name="style">样式</string>
     <string name="style_tip">颜色风格调整</string>
     <string name="background_color">贴纸背景颜色</string>
+    <string name="background_transparency">背景透明度</string>
     <string name="text_color">贴纸文本颜色</string>
+    <string name="font_weight">字体粗细</string>
+    <string name="font_weight_normal">正常</string>
+    <string name="font_weight_bold">粗体</string>
     <string name="help">帮助</string>
     <string name="help_tip">弹出之后,双击弹窗就可以退出啦</string>
     <string name="overlay_permission_required">没有悬浮权限,本应用啥也做不到的啦</string>

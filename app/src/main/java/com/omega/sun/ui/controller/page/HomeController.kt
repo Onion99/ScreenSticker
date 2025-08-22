@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontWeight
 import com.omega.resource.R
 import com.omega.sun.service.FloatingWindowService
 import com.omega.sun.ui.controller.base.BaseLifecycleController
@@ -34,6 +35,8 @@ import net.mm2d.color.chooser.compose.ColorChooserDialog
 import kotlinx.coroutines.launch
 
 private const val KEY_TEXT = "KEY_TEXT"
+private const val KEY_BACKGROUND_ALPHA = "KEY_BACKGROUND_ALPHA"
+private const val KEY_FONT_WEIGHT = "KEY_FONT_WEIGHT"
 val DEFAULT_BG_COLOR = Color.LightGray.copy(alpha = 0.8f)
 val DEFAULT_TEXT_COLOR = Color.Black
 // The controller remains the same.
@@ -60,6 +63,9 @@ fun HomeScreen() {
     var textColor by remember { mutableStateOf(DEFAULT_TEXT_COLOR) }
     var bgColorDialogShow by rememberSaveable { mutableStateOf(false) }
     var textColorDialogShow by rememberSaveable { mutableStateOf(false) }
+    var backgroundAlpha by rememberSaveable { mutableStateOf(MMKV.defaultMMKV().decodeFloat(KEY_BACKGROUND_ALPHA, 0.8f)) }
+    var fontWeight by rememberSaveable { mutableStateOf(MMKV.defaultMMKV().decodeString(KEY_FONT_WEIGHT, FontWeight.Normal.toString()) ?: FontWeight.Normal.toString()) }
+
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -73,15 +79,19 @@ fun HomeScreen() {
             if (textState.isNotBlank()) {
                 val intent = Intent(context, FloatingWindowService::class.java).apply {
                     putExtra("EXTRA_TEXT", textState)
-                    putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.toArgb())
+                    putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.copy(alpha = backgroundAlpha).toArgb())
                     putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                    putExtra("EXTRA_BACKGROUND_ALPHA", backgroundAlpha)
+                    putExtra("EXTRA_FONT_WEIGHT", fontWeight)
                 }
                 context.startService(intent)
             } else if (imageUri != null) {
                 val intent = Intent(context, FloatingWindowService::class.java).apply {
                     putExtra("EXTRA_IMAGE_URI", imageUri)
-                    putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.toArgb())
+                    putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.copy(alpha = backgroundAlpha).toArgb())
                     putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                    putExtra("EXTRA_BACKGROUND_ALPHA", backgroundAlpha)
+                    putExtra("EXTRA_FONT_WEIGHT", fontWeight)
                 }
                 context.startService(intent)
             }
@@ -103,8 +113,10 @@ fun HomeScreen() {
                 if (Settings.canDrawOverlays(context)) {
                     val intent = Intent(context, FloatingWindowService::class.java).apply {
                         putExtra("EXTRA_IMAGE_URI", imageUri)
-                        putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.toArgb())
+                        putExtra("EXTRA_BACKGROUND_COLOR", backgroundColor.copy(alpha = backgroundAlpha).toArgb())
                         putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                        putExtra("EXTRA_BACKGROUND_ALPHA", backgroundAlpha)
+                        putExtra("EXTRA_FONT_WEIGHT", fontWeight)
                     }
                     context.startService(intent)
                 } else {
@@ -185,9 +197,11 @@ fun HomeScreen() {
                                             putExtra("EXTRA_TEXT", textState)
                                             putExtra(
                                                 "EXTRA_BACKGROUND_COLOR",
-                                                backgroundColor.toArgb()
+                                                backgroundColor.copy(alpha = backgroundAlpha).toArgb()
                                             )
                                             putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                                            putExtra("EXTRA_BACKGROUND_ALPHA", backgroundAlpha)
+                                            putExtra("EXTRA_FONT_WEIGHT", fontWeight)
                                         }
                                     context.startService(intent)
                                 } else {
@@ -227,9 +241,11 @@ fun HomeScreen() {
                                                 putExtra("EXTRA_TEXT", textState)
                                                 putExtra(
                                                     "EXTRA_BACKGROUND_COLOR",
-                                                    backgroundColor.toArgb()
+                                                    backgroundColor.copy(alpha = backgroundAlpha).toArgb()
                                                 )
                                                 putExtra("EXTRA_TEXT_COLOR", textColor.toArgb())
+                                                putExtra("EXTRA_BACKGROUND_ALPHA", backgroundAlpha)
+                                                putExtra("EXTRA_FONT_WEIGHT", fontWeight)
                                             }
                                             context.startService(intent)
                                         } else {
@@ -325,6 +341,7 @@ fun HomeScreen() {
                     title = stringResource(id = R.string.style),
                     icon = Icons.Rounded.Style
                 ) {
+                    // Background Color and Text Color buttons
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -354,6 +371,69 @@ fun HomeScreen() {
                             Text(stringResource(id = R.string.text_color))
                         }
                     }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    // Background Transparency Slider
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = stringResource(id = R.string.background_transparency),
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Slider(
+                            value = backgroundAlpha,
+                            onValueChange = {
+                                backgroundAlpha = it
+                                MMKV.defaultMMKV().encode(KEY_BACKGROUND_ALPHA, it)
+                            },
+                            valueRange = 0.1f..1.0f,
+                            steps = 0,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    // Font Weight Buttons
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = stringResource(id = R.string.font_weight),
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            FilledTonalButton(
+                                onClick = {
+                                    fontWeight = FontWeight.Normal.toString()
+                                    MMKV.defaultMMKV().encode(KEY_FONT_WEIGHT, FontWeight.Normal.toString())
+                                },
+                                colors = ButtonDefaults.filledTonalButtonColors(
+                                    containerColor = if (fontWeight == FontWeight.Normal.toString()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = if (fontWeight == FontWeight.Normal.toString()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                                ),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(stringResource(id = R.string.font_weight_normal))
+                            }
+                            FilledTonalButton(
+                                onClick = {
+                                    fontWeight = FontWeight.Bold.toString()
+                                    MMKV.defaultMMKV().encode(KEY_FONT_WEIGHT, FontWeight.Bold.toString())
+                                },
+                                colors = ButtonDefaults.filledTonalButtonColors(
+                                    containerColor = if (fontWeight == FontWeight.Bold.toString()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = if (fontWeight == FontWeight.Bold.toString()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                                ),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(stringResource(id = R.string.font_weight_bold))
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -366,7 +446,7 @@ fun HomeScreen() {
                 else textColorDialogShow = false
             },
             onChooseColor = { color ->
-                if(bgColorDialogShow) backgroundColor = color
+                if(bgColorDialogShow) backgroundColor = color.copy(alpha = backgroundAlpha)
                 else textColor = color
             }
         )
