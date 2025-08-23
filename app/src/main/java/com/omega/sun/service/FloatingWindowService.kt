@@ -39,6 +39,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -58,6 +59,8 @@ import com.omega.sun.ui.controller.page.DEFAULT_TEXT_COLOR
 import com.tencent.mmkv.MMKV
 import kotlin.math.roundToInt
 import androidx.core.net.toUri
+import com.omega.sun.ui.controller.page.DEFAULT_BG_ALPHA
+import com.omega.sun.ui.controller.page.FONT_WEIGHT_NORMAL
 
 
 private const val KEY_CACHE_TYPE = "KEY_CACHE_TYPE"
@@ -65,6 +68,8 @@ private const val KEY_CACHE_TEXT = "KEY_CACHE_TEXT"
 private const val KEY_CACHE_IMAGE = "KEY_CACHE_IMAGE"
 private const val KEY_CACHE_BACKGROUND_COLOR = "KEY_CACHE_BACKGROUND_COLOR"
 private const val KEY_CACHE_TEXT_COLOR = "KEY_CACHE_TEXT_COLOR"
+const val KEY_BACKGROUND_ALPHA = "KEY_BACKGROUND_ALPHA"
+const val KEY_FONT_WEIGHT = "KEY_FONT_WEIGHT"
 private const val TYPE_TEXT = "text"
 private const val TYPE_IMAGE = "image"
 class FloatingWindowService : LifecycleService() {
@@ -233,14 +238,15 @@ class FloatingWindowService : LifecycleService() {
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
-                    .background(backgroundColor.copy(alpha = 0.8f))
+                    .background(backgroundColor.copy(MMKV.defaultMMKV().decodeFloat(KEY_BACKGROUND_ALPHA, DEFAULT_BG_ALPHA)))
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (text != null) {
                     Text(
                         text,
-                        modifier = Modifier.padding(end = 8.dp),
+                        fontWeight = FontWeight(MMKV.defaultMMKV().decodeInt(KEY_FONT_WEIGHT, FONT_WEIGHT_NORMAL)),
+                        //modifier = Modifier.padding(end = 8.dp),
                         color = textColor
                     )
                 }

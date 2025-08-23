@@ -29,15 +29,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import com.omega.resource.R
 import com.omega.sun.service.FloatingWindowService
+import com.omega.sun.service.KEY_BACKGROUND_ALPHA
+import com.omega.sun.service.KEY_FONT_WEIGHT
 import com.omega.sun.ui.controller.base.BaseLifecycleController
 import com.tencent.mmkv.MMKV
 import net.mm2d.color.chooser.compose.ColorChooserDialog
 import kotlinx.coroutines.launch
 
 private const val KEY_TEXT = "KEY_TEXT"
-private const val KEY_BACKGROUND_ALPHA = "KEY_BACKGROUND_ALPHA"
-private const val KEY_FONT_WEIGHT = "KEY_FONT_WEIGHT"
-val DEFAULT_BG_COLOR = Color.LightGray.copy(alpha = 0.8f)
+const val FONT_WEIGHT_NORMAL = 400
+const val FONT_WEIGHT_BOLD = 700
+val DEFAULT_BG_COLOR = Color.LightGray
+val DEFAULT_BG_ALPHA = 0.8f
 val DEFAULT_TEXT_COLOR = Color.Black
 // The controller remains the same.
 class HomeController : BaseLifecycleController() {
@@ -63,8 +66,8 @@ fun HomeScreen() {
     var textColor by remember { mutableStateOf(DEFAULT_TEXT_COLOR) }
     var bgColorDialogShow by rememberSaveable { mutableStateOf(false) }
     var textColorDialogShow by rememberSaveable { mutableStateOf(false) }
-    var backgroundAlpha by rememberSaveable { mutableStateOf(MMKV.defaultMMKV().decodeFloat(KEY_BACKGROUND_ALPHA, 0.8f)) }
-    var fontWeight by rememberSaveable { mutableStateOf(MMKV.defaultMMKV().decodeString(KEY_FONT_WEIGHT, FontWeight.Normal.toString()) ?: FontWeight.Normal.toString()) }
+    var backgroundAlpha by rememberSaveable { mutableFloatStateOf(MMKV.defaultMMKV().decodeFloat(KEY_BACKGROUND_ALPHA, DEFAULT_BG_ALPHA)) }
+    var fontWeight by rememberSaveable { mutableIntStateOf(MMKV.defaultMMKV().decodeInt(KEY_FONT_WEIGHT, FONT_WEIGHT_NORMAL)) }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -408,12 +411,12 @@ fun HomeScreen() {
                         ) {
                             FilledTonalButton(
                                 onClick = {
-                                    fontWeight = FontWeight.Normal.toString()
-                                    MMKV.defaultMMKV().encode(KEY_FONT_WEIGHT, FontWeight.Normal.toString())
+                                    fontWeight = FONT_WEIGHT_NORMAL
+                                    MMKV.defaultMMKV().encode(KEY_FONT_WEIGHT, FONT_WEIGHT_NORMAL)
                                 },
                                 colors = ButtonDefaults.filledTonalButtonColors(
-                                    containerColor = if (fontWeight == FontWeight.Normal.toString()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                                    contentColor = if (fontWeight == FontWeight.Normal.toString()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                                    containerColor = if (fontWeight == FONT_WEIGHT_NORMAL) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = if (fontWeight == FONT_WEIGHT_NORMAL) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                                 ),
                                 modifier = Modifier.weight(1f)
                             ) {
@@ -421,12 +424,12 @@ fun HomeScreen() {
                             }
                             FilledTonalButton(
                                 onClick = {
-                                    fontWeight = FontWeight.Bold.toString()
-                                    MMKV.defaultMMKV().encode(KEY_FONT_WEIGHT, FontWeight.Bold.toString())
+                                    fontWeight = FONT_WEIGHT_BOLD
+                                    MMKV.defaultMMKV().encode(KEY_FONT_WEIGHT, FONT_WEIGHT_BOLD)
                                 },
                                 colors = ButtonDefaults.filledTonalButtonColors(
-                                    containerColor = if (fontWeight == FontWeight.Bold.toString()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                                    contentColor = if (fontWeight == FontWeight.Bold.toString()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                                    containerColor = if (fontWeight == FONT_WEIGHT_BOLD) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+                                    contentColor = if (fontWeight == FONT_WEIGHT_BOLD) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                                 ),
                                 modifier = Modifier.weight(1f)
                             ) {
