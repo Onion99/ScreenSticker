@@ -6,7 +6,7 @@ object Configuration {
   const val targetSdk = 36
   const val minSdk = 26
   private const val majorVersion = 1
-  private const val minorVersion = 3
+  private const val minorVersion = 4
   private const val patchVersion = 0
   const val versionName = "$majorVersion.$minorVersion.$patchVersion"
   val versionCode = "$majorVersion$minorVersion$patchVersion".toInt()

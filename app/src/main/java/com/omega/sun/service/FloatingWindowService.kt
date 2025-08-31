@@ -67,7 +67,7 @@ private const val KEY_CACHE_TYPE = "KEY_CACHE_TYPE"
 private const val KEY_CACHE_TEXT = "KEY_CACHE_TEXT"
 private const val KEY_CACHE_IMAGE = "KEY_CACHE_IMAGE"
 private const val KEY_CACHE_BACKGROUND_COLOR = "KEY_CACHE_BACKGROUND_COLOR"
-private const val KEY_CACHE_TEXT_COLOR = "KEY_CACHE_TEXT_COLOR"
+const val KEY_CACHE_TEXT_COLOR = "KEY_CACHE_TEXT_COLOR"
 const val KEY_BACKGROUND_ALPHA = "KEY_BACKGROUND_ALPHA"
 const val KEY_FONT_WEIGHT = "KEY_FONT_WEIGHT"
 private const val TYPE_TEXT = "text"
@@ -108,7 +108,7 @@ class FloatingWindowService : LifecycleService() {
             backgroundColor = intent.getIntExtra("EXTRA_BACKGROUND_COLOR", DEFAULT_BG_COLOR.toArgb())
             textColor = intent.getIntExtra("EXTRA_TEXT_COLOR", DEFAULT_TEXT_COLOR.toArgb())
 //            mmkv.encode(KEY_CACHE_BACKGROUND_COLOR, backgroundColor)
-//            mmkv.encode(KEY_CACHE_TEXT_COLOR, textColor)
+            mmkv.encode(KEY_CACHE_TEXT_COLOR, textColor)
 
             if (intent.hasExtra("EXTRA_TEXT")) {
                 text = intent.getStringExtra("EXTRA_TEXT")
@@ -126,6 +126,7 @@ class FloatingWindowService : LifecycleService() {
             /*backgroundColor = mmkv.decodeInt(KEY_CACHE_BACKGROUND_COLOR, DEFAULT_BG_COLOR.toArgb())
             textColor = mmkv.decodeInt(KEY_CACHE_TEXT_COLOR, DEFAULT_TEXT_COLOR.toArgb())*/
             val type = mmkv.decodeString(KEY_CACHE_TYPE)
+            textColor = mmkv.decodeInt(KEY_CACHE_TEXT_COLOR,DEFAULT_TEXT_COLOR.toArgb())
             if (type == TYPE_TEXT) {
                 text = mmkv.decodeString(KEY_CACHE_TEXT)
             } else if (type == TYPE_IMAGE) {
@@ -188,8 +189,7 @@ class FloatingWindowService : LifecycleService() {
                 KEY_CACHE_TYPE,
                 KEY_CACHE_TEXT,
                 KEY_CACHE_IMAGE,
-                KEY_CACHE_BACKGROUND_COLOR,
-                KEY_CACHE_TEXT_COLOR
+                KEY_CACHE_BACKGROUND_COLOR
             )
         )
         // Manually trigger the DESTROYED event and clear the ViewModelStore

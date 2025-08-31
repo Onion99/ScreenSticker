@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.omega.resource.R
 import com.omega.sun.service.FloatingWindowService
 import com.omega.sun.service.KEY_BACKGROUND_ALPHA
+import com.omega.sun.service.KEY_CACHE_TEXT_COLOR
 import com.omega.sun.service.KEY_FONT_WEIGHT
 import com.omega.sun.ui.controller.base.BaseLifecycleController
 import com.tencent.mmkv.MMKV
@@ -63,7 +64,7 @@ fun HomeScreen() {
     var textState by remember { mutableStateOf(MMKV.defaultMMKV().decodeString(KEY_TEXT, "") ?: "") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var backgroundColor by remember { mutableStateOf(DEFAULT_BG_COLOR) }
-    var textColor by remember { mutableStateOf(DEFAULT_TEXT_COLOR) }
+    var textColor by remember { mutableStateOf(Color(MMKV.defaultMMKV().decodeInt(KEY_CACHE_TEXT_COLOR,DEFAULT_TEXT_COLOR.toArgb()))) }
     var bgColorDialogShow by rememberSaveable { mutableStateOf(false) }
     var textColorDialogShow by rememberSaveable { mutableStateOf(false) }
     var backgroundAlpha by rememberSaveable { mutableFloatStateOf(MMKV.defaultMMKV().decodeFloat(KEY_BACKGROUND_ALPHA, DEFAULT_BG_ALPHA)) }
